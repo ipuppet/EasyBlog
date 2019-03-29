@@ -1,0 +1,86 @@
+.list hr {
+    width: 300px;
+    height: 0;
+    border-bottom: 1px solid #b5b5b5;
+    margin-top: 25px;
+    margin-left: 0;
+}
+
+.title {
+    font-size: 26px;
+    margin-top: 50px;
+}
+
+.title a {
+    color: #000000;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.title a:hover {
+    color: #818181;
+    margin-left: 10px;
+}
+
+.info {
+    font-size: 12px;
+    color: #737373;
+    margin: 10px 0 10px 0;
+}
+
+.tag {
+    color: #737373;
+    transition: 0.3s;
+    text-decoration: underline;
+}
+
+/*标签分类样式表*/
+.tag:hover {
+    color: #2e2e2e;
+    text-decoration: underline;
+}
+
+/*时间轴样式*/
+.year {
+    font-size: 34px;
+    color: #737373;
+    margin-left: -7px;
+    margin-bottom: 15px;
+}
+
+.archives {
+    border-left: 4px solid #c2c2c2;
+    list-style-position: inside;
+    padding: 0;
+    font-size: 12px;
+    line-height: 60px;
+}
+.archivesBox{
+    margin-left: -3.5px;
+}
+.archives-title {
+    font-size: 16px;
+    color: #000000;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.archives-title:hover {
+    color: #818181;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+/*搜索样式表*/
+.choose-tag {
+    font-size: 36px;
+}
+
+.kw {
+    font-size: 36px;
+}
+
+.noneMsg {
+    font-size: 24px;
+    margin-top: 20px;
+}

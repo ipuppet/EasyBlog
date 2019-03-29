@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title %}搜索结果{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/public/static/css/list.css"/>
+{% endblock %}
+{% block body %}
+    <div class="list">
+        <div class="kw animated flipInX">
+            "{{ kw }}"&nbsp;的搜索结果
+        </div>
+        {% if kw|length>0 %}
+            {% if articles|length>0 %}
+                {% for article in articles %}
+                    <div class="article animated zoomIn">
+                        <div class="title">
+                            <a href="/detail/{{ article.aid }}">{{ article.title }}</a>
+                        </div>
+                        <div class="info">
+                            <span>{{ article.creatDate }}</span>
+                            {% if article.tags|length>0 %}
+                                &nbsp;|&nbsp;标签：
+                                {% for tag in article.tags %}
+                                    <a class="tag" href="/tag/{{ tag }}">{{ tag }}</a>&nbsp;
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div>
+                            {{ article.abstract|raw }}
+                            ...
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="noneMsg animated zoomIn">没有找到哎。。。</div>
+            {% endif %}
+        {% else %}
+            <div class="noneMsg animated zoomIn">请输入关键字！</div>
+        {% endif %}
+    </div>
+    <script>
+        //添加动画
+        listDelay = 500;
+        $('.article').each(function () {
+            $(this).css('animation-delay', listDelay + 'ms');
+            listDelay += 200;
+        })
+    </script>
+{% endblock %}

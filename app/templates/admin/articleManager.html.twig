@@ -1,0 +1,145 @@
+{% extends 'adminBase.html.twig' %}
+{% block title %}新的文章{% endblock %}
+{% block head %}
+    <script src="/public/static/library/editormd/editormd.min.js"></script>
+    <link rel="stylesheet" href="/public/static/library/editormd/css/editormd.min.css">
+    <link rel="stylesheet" href="/public/static/css/admin/articleManager.css">
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <h1>Article Manager</h1>
+        {#markdown#}
+        <div class="row markdown">
+            <div class="form-group">
+                <label for="title" style="display: none">标题</label>
+                <input class="form-control" type="text" id="title"
+                       placeholder="标题 若为空会自动截取正文前25个字符"
+                       value="{% if article != 0 %}{{ article.title }}{% endif %}">
+            </div>
+            {#标签容器#}
+            <div class="tag-container">
+                {% if article != 0 %}
+                    {% for tag in article.tags %}
+                        <button onclick="removeTag(this)">{{ tag }}</button>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {#标签下拉菜单#}
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="tags" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="true">
+                    添加标签
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="tags">
+                    {% for tag in tags %}
+                        <li><a onclick="addTag(this)">{{ tag }}</a></li>
+                    {% endfor %}
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/admin/info" target="_blank">编辑标签</a></li>
+                </ul>
+            </div>
+            <div id="editormd">
+                <textarea class="editormd-markdown-textarea"
+                          name="editormd-markdown-doc">{% if article != 0 %}{{ article.original }}{% endif %}</textarea>
+                <textarea class="editormd-html-textarea" name="editormd-html-code"></textarea>
+            </div>
+            <button onclick="return submitMarkdown();" class="btn btn-primary">保存</button>
+            {% if aid!=0 %}
+                <button onclick="return deleteArticle();" class="btn btn-danger" style="float:right;">删除</button>
+                <script>
+                    function deleteArticle() {
+                        if (confirm('确定要删除吗？该操作不可逆！') === true) {
+                            $.ajax({
+                                url: "/admin/apiDeleteArticle",
+                                type: "post",
+                                data: {
+                                    aid: "{{ aid }}"
+                                },
+                                success: function (ret) {
+                                    showMsg('删除成功');
+                                    setTimeout("window.location.href='/admin'", 1000);
+                                    console.log(ret)
+                                }
+                            })
+                        } else {
+                            return false;
+                        }
+                    }
+                </script>
+            {% endif %}
+            <script>
+                //    调用编辑器
+                var editormdObj;
+                $(function () {
+                    editormdObj = editormd("editormd", {
+                        height: 440,
+                        toolbarIcons: function () {
+                            return [
+                                "undo", "redo", "|",
+                                "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                                "list-ul", "list-ol", "hr", "|",
+                                "link", "reference-link", "image", "|",
+                                "code", "preformatted-text", "table", "html-entities", "pagebreak", "|",
+                                "goto-line", "search", "watch", "fullscreen", "preview", "|",
+                                "help", "info"
+                            ]
+                        },
+                        syncScrolling: "single",
+                        saveHTMLToTextarea: true,
+                        path: "/public/static/library/editormd/lib/"
+                    });
+                });
+
+                function submitMarkdown() {
+                    var titleEle = $('#title');
+                    var htmlContent = editormdObj.getHTML();
+                    var markdownContent = editormdObj.getMarkdown();
+                    var tags = [];
+                    $('.tag-container').find('button').each(function () {
+                        tags.push($(this).text())
+                    });
+                    tags = JSON.stringify(tags);
+                    if (titleEle.val() === '') {
+                        titleEle.val(markdownContent.slice(0, 25).replace(/<[^>]+>/g, ""));
+                    }
+                    if (markdownContent === '') {
+                        showMsg('内容不能为空');
+                        return false;
+                    } else {
+                        sendContent(titleEle.val(), markdownContent, htmlContent, tags)
+                    }
+                }
+            </script>
+        </div>
+    </div>
+    <script>
+        function sendContent(title, original, html, tags) {
+            $.ajax({
+                url: {% if article != 0 %}"/admin/apiChangeArticle"{% else %}"/admin/apiAddArticle"{% endif %},
+                type: "post",
+                data: {
+                    title: title,
+                    original: original,
+                    html: html,
+                    tags: tags,
+                    {% if aid!=0 %}
+                    aid: "{{ aid }}"
+                    {% endif %}
+                },
+                success: function (ret) {
+                    ret = JSON.parse(ret);
+                    if (ret.state === '1') {
+                        showMsg('操作成功');
+                        setTimeout("window.location.href='/admin'", 1000);
+                    }
+                }
+            })
+        }
+
+        function addTag(ele) {
+            var tag = $(ele).text();
+            $('.tag-container').append('<button onclick="$(this).remove()">' + tag + '</button>');
+        }
+    </script>
+{% endblock %}

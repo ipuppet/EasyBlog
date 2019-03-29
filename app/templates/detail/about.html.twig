@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    关于我
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/public/static/css/detail.css"/>
+    <style></style>
+{% endblock %}
+{% block body %}
+    <div class="article">
+        <div>
+            目前这里什么也没有。。。<br>
+            你可以去<a href="/detail/1">这里</a>看看
+        </div>
+    </div>
+
+    <script>
+        $('.article').find('img').each(function () {
+            $(this).wrapAll('<div class="img_container"></div>');
+        });
+        var imgLoad = imagesLoaded('.article');
+        imgLoad.on('always', function () {
+            for (var i = 0, len = imgLoad.images.length; i < len; i++) {
+                var image = imgLoad.images[i];
+                if (image.isLoaded) {
+                    $(image.img).animate({
+                        'opacity': 1,
+                    }, 500);
+                    console.log('image ' + image.img.src + ' is successfully loaded');
+                } else {
+                    console.log('image is broken for ' + image.img.src);
+                }
+            }
+        });
+    </script>
+{% endblock %}

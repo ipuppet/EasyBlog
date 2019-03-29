@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ tag }} 标签{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/public/static/css/list.css"/>
+{% endblock %}
+{% block body %}
+    <div class="list">
+        <div class="choose-tag animated flipInX">
+            "{{ tag }}" 标签下的内容
+        </div>
+        {% for article in articles %}
+            <div class="article animated zoomIn">
+                <div class="title">
+                    <a href="/detail/{{ article.aid }}">{{ article.title }}</a>
+                </div>
+                <div class="info">
+                    <span>{{ article.creatDate }}</span>
+                </div>
+                <div>
+                    {{ article.abstract|raw }}
+                    ...
+                </div>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        //添加动画
+        listDelay = 500;
+        $('.article').each(function () {
+            $(this).css('animation-delay', listDelay + 'ms');
+            listDelay += 200;
+        })
+    </script>
+{% endblock %}

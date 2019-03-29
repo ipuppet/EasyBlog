@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <script src="/public/static/library/jquery-3.3.1.min.js"></script>
+    <script src="/public/static/library/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/public/static/library/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/public/static/library/animate.css"/>
+    <link rel="stylesheet" href="/public/static/css/admin/login.css"/>
+    <title>登陆</title>
+</head>
+<body>
+<div class="box">
+    <div class="login col-sm-5">
+        <div class="data">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input class="form-control" type="text" id="username">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input class="form-control" type="password" id="password">
+            </div>
+        </div>
+        <div>
+            <button onclick="login()">登陆</button>
+        </div>
+    </div>
+
+    <div class="register col-sm-5 col-sm-offset-2">
+        <div class="data">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input class="form-control" type="text" id="new-username">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input class="form-control" type="text" id="new-password">
+            </div>
+            <div class="form-group">
+                <label for="password">再输入一次</label>
+                <input class="form-control" type="text" id="new-re-password">
+            </div>
+        </div>
+    </div>
+    <div class="cover">
+        <button onclick="change(this)">
+            <span class="text text-login animated" style="display:none;">login</span>
+            <span class="text text-register animated">register</span>
+        </button>
+    </div>
+</div>
+<script>
+    var i = 0;
+
+    function change(ele) {
+        var btn = $(ele);
+        var tl = $('.text-login');
+        var tr = $('.text-register');
+        btn.css({
+            'width': 130,
+        });
+        setTimeout(function () {
+            btn.css({
+                'width': 100,
+            });
+        }, 500);
+        if (i % 2 === 0) {
+            tr.hide();
+            tl.fadeIn(500);
+        } else {
+            tr.fadeIn(500);
+            tl.hide();
+        }
+        i++;
+        var e = $('.cover');
+        e.css({
+            'right': e.css('left'),
+        });
+    }
+
+    function login() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            url: "/admin/apiLogin",
+            type: "post",
+            data: {
+                "username": username,
+                "password": password
+            },
+            success: function (ret) {
+                ret = JSON.parse(ret);
+                if (ret.state === '1') {
+                    showMsg('登陆成功', 1000);
+                    setTimeout(function () {
+                        window.location.href="/admin"
+                    }, 1000);
+                } else {
+                    showMsg(ret.msg, 1000);
+                }
+            }
+        })
+    }
+</script>
+<div class="global-msg-box animated"></div>
+<script>
+    var t_for_global_msg_box;
+
+    function showMsg(msg, time = 1500) {
+        var e = $('.global-msg-box');
+        e.text(msg).show().addClass('fadeIn').removeClass('fadeOut');
+        clearTimeout(t_for_global_msg_box);
+        t_for_global_msg_box = setTimeout(function () {
+            e.addClass('fadeOut').removeClass('fadeIn');
+        }, time);
+    }
+</script>
+</body>
+</html>

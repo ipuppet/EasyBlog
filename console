@@ -1,0 +1,63 @@
+<?php
+
+require './app/Kernel.php';
+
+use EasyBlog\Core\Kernel;
+
+$option = $_SERVER["argv"][1];
+switch ($option) {
+    case "admin":
+        admin($_SERVER["argv"][2]);
+        break;
+}
+
+function admin($option)
+{
+    switch ($option) {
+        case "add":
+            //输入用户名并检测是否重复
+            $flag = true;
+            echo "Enter new username:\n";
+            while ($flag) {
+                $username = trim(fgets(STDIN));
+                $json = file_get_contents(Kernel::getConfig('admin.json'));
+                $admins = json_decode($json, true);
+                if (!empty($admins)) {
+                    foreach ($admins as $admin) {
+                        if ($username === $admin['username']) {
+                            echo "The user name already exists. Please enter it again.\n";
+                            $flag = true;
+                            break;
+                        } else {
+                            $flag = false;
+                        }
+                    }
+                } else {
+                    $flag = false;
+                }
+            }
+            //输入密码并检测两次输入是否相同
+            while (true) {
+                echo "Set a password for {$username}:\n";
+                $password = trim(fgets(STDIN));
+                echo "Enter the password again:\n";
+                $rep = trim(fgets(STDIN));
+                if ($password !== $rep) {
+                    echo "The passwords entered twice are different!\n";
+                } else {
+                    break;
+                }
+            }
+            $admins[] = [
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_DEFAULT)
+            ];
+            $json = json_encode($admins, JSON_UNESCAPED_UNICODE);
+            if (file_put_contents(Kernel::getConfig('admin.json'), $json) === false) {
+                echo "Writing to a file failed, possibly without write permission for the file.\n
+                file path: " . Kernel::getConfig('admin.json');
+            } else {
+                echo "Administrator added successfully!";
+            }
+    }
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <script src="/public/static/library/jquery-3.3.1.min.js"></script>
+    <script src="/public/static/library/imagesloaded.pkgd.min.js"></script>
+    <script src="/public/static/library/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/public/static/library/swiper-4.5.0/swiper.min.js"></script>
+    <link rel="stylesheet" href="/public/static/library/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/public/static/library/animate.css"/>
+    <link rel="stylesheet" href="/public/static/library/swiper-4.5.0/swiper.min.css">
+    <link rel="stylesheet" href="/public/static/css/admin/base.css"/>
+    <title>{% block title %}后台管理{% endblock %}</title>
+    {% block head %}{% endblock %}
+</head>
+<body>
+<div class="header">
+    <span>后台管理</span>
+    {% block nav_menu %}
+        <ul class="nav-menu">
+            <li><a href="/admin">首页</a></li>
+            <li><a href="/admin/info">杂项管理</a></li>
+            <li><a href="/admin/articleManager/">添加文章</a></li>
+        </ul>
+    {% endblock %}
+</div>
+{% block body %}{% endblock %}
+<div class="global-msg-box animated"></div>
+<script>
+    var t_for_global_msg_box;
+
+    function showMsg(msg, time = 1500) {
+        var e = $('.global-msg-box');
+        e.text(msg).show().addClass('fadeIn').removeClass('fadeOut');
+        clearTimeout(t_for_global_msg_box);
+        t_for_global_msg_box = setTimeout(function () {
+            e.addClass('fadeOut').removeClass('fadeIn');
+        }, time);
+    }
+</script>
+</body>
+</html>

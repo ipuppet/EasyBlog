@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ about.name }}'s blog{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/public/static/css/index.css"/>
+{% endblock %}
+{% block body %}
+    <div class="articleList">
+        {% for article in articles %}
+            <div class="article animated zoomIn">
+                <div class="title">
+                    <a href="/detail/{{ article.aid }}">{{ article.title }}</a>
+                </div>
+                <div class="info">
+                    <span>{{ article.creatDate }}</span>
+                    {% if article.tags|length>0 %}
+                        &nbsp;|&nbsp;标签：
+                        {% for tag in article.tags %}
+                            <a class="tag" href="/tag/{{ tag }}">{{ tag }}</a>&nbsp;
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div>
+                    {{ article.abstract|raw }}
+                    ...
+                </div>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        $(document).ready(function () {
+            //给图片加上盒子
+            $('.articleList').find('img').each(function () {
+                $(this).wrapAll('<div class="img-container"></div>');
+                let width = $(this).width();
+                $(this).height(width * 9 / 16)
+            });
+            //图片加载检测
+            var imgLoad = imagesLoaded('.articleList');
+            imgLoad.on('always', function () {
+                for (var i = 0, len = imgLoad.images.length; i < len; i++) {
+                    var image = imgLoad.images[i];
+                    if (image.isLoaded) {
+                        $(image.img).animate({
+                            'opacity': 1,
+                        }, 500);
+                        console.log('image ' + image.img.src + ' is successfully loaded');
+                    } else {
+                        console.log('image is broken for ' + image.img.src);
+                    }
+                }
+            });
+        });
+        //添加动画
+        listDelay = 500;
+        $('.article').each(function () {
+            $(this).css('animation-delay', listDelay + 'ms');
+            listDelay += 200;
+        })
+    </script>
+{% endblock %}

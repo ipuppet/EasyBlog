@@ -1,0 +1,56 @@
+.title {
+    text-align: center;
+    font-size: 32px;
+    animation-delay: 400ms;
+}
+
+.info {
+    font-size: 12px;
+    color: #737373;
+    text-align: center;
+    margin: 10px 0 10px 0;
+    animation-delay: 600ms;
+}
+
+.tag {
+    color: #737373;
+    transition: 0.3s;
+    text-decoration: underline;
+}
+
+.tag:hover {
+    color: #2e2e2e;
+    text-decoration: underline;
+}
+
+.content {
+    animation-delay: 800ms;
+    margin-top: 50px;
+}
+
+.other {
+    color: #919191;
+    font-size: 12px;
+}
+
+.other a {
+    color: #000000;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.other a:hover {
+    color: #818181;
+}
+
+.next {
+    float: right;
+    text-align: right;
+}
+
+.previous {
+    float: left;
+    text-align: left;
+}

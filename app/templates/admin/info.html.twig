@@ -1,0 +1,160 @@
+{% extends 'adminBase.html.twig' %}
+{% block title %}杂项管理{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/public/static/css/admin/info.css">
+{% endblock %}
+{% block body %}
+    <div class="menu-container col-sm-3">
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills nav-stacked" role="tablist">
+            <li role="presentation" class="info-container active">
+                <a href="#banners" aria-controls="banners" role="tab" data-toggle="tab">
+                    横幅
+                </a>
+            </li>
+            <li role="presentation" class="info-container">
+                <a href="#tags" aria-controls="tags" role="tab" data-toggle="tab">
+                    标签
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Tab panes -->
+    <div class="tab-content col-sm-9">
+        <div role="tabpanel" class="tab-pane active" id="banners">
+            <div class="data-container">
+                {% for item in banners %}
+                    <div class="row card">
+                        <div class="form-group">
+                            <label for="title-{{ loop.index }}">标题</label>
+                            <input class="form-control" id="title-{{ loop.index }}"
+                                   type="text" value="{{ item.title }}" name="title">
+                            <label for="url-{{ loop.index }}">链接</label>
+                            <input class="form-control" id="url-{{ loop.index }}"
+                                   type="text" value="{{ item.url }}" name="url">
+                            <label for="abstract-{{ loop.index }}">摘要</label>
+                            <input class="form-control" id="abstract-{{ loop.index }}"
+                                   type="text" value="{{ item.abstract }}" name="abstract">
+                            <label for="background-{{ loop.index }}">背景</label>
+                            <input class="form-control" id="background-{{ loop.index }}"
+                                   type="text" value="{{ item.background }}" name="background">
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <button class="btn btn-danger" onclick="del(this)">删除</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button id="add-banners" class="btn btn-default" onclick="add(this)">
+                +
+            </button>
+            <button id="submit-banners" class="btn btn-default" onclick="sendData(this)">
+                提交
+            </button>
+            <div id="save" style="display: none;"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tags">
+            <div class="data-container">
+                {% for item in tags %}
+                    <div class="row card">
+                        <div class="form-group col-sm-10">
+                            <label for="item-{{ loop.index }}" style="display: none"></label>
+                            <input class="form-control" id="item-{{ loop.index }}"
+                                   type="text" value="{{ item }}" name="item">
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <button class="btn btn-danger" onclick="del(this)">删除</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button id="add-tags" class="btn btn-default" onclick="add(this)">
+                +
+            </button>
+            <button id="submit-tags" class="btn btn-default" onclick="sendData(this)">
+                提交
+            </button>
+            <div id="save" style="display: none;"></div>
+        </div>
+    </div>
+    <script>
+        function getData(ele, assoc) {
+            var name = ele.id.split('-')[1];
+            var data = [];
+            var i = 0;
+            $('#' + name).find('.card').each(function () {
+                if (assoc) data[i] = {};
+                $(this).find('input').each(function () {
+                    if (assoc) {
+                        data[i][this.name] = this.value;
+                    } else {
+                        data.push(this.value);
+                    }
+                });
+                i++
+            });
+            return JSON.stringify(data);
+        }
+
+        function sendData(ele) {
+            var name = ele.id.split('-')[1];
+            switch (name) {
+                case 'banners':
+                    assoc = true;
+                    break;
+                default:
+                    assoc = false;
+            }
+            var data = getData(ele, assoc);
+            $.ajax({
+                url: "/admin/apiChangeInfo",
+                method: "post",
+                data: {
+                    "data": data,
+                    "name": name
+                },
+                success: function (ret) {
+                    ret = JSON.parse(ret);
+                    if (ret.state === '1') {
+                        showMsg('更改成功，即将自动刷新页面。');
+                        setTimeout("window.location.reload()", 1000);
+                    } else {
+                        showMsg('error: '+ret.msg);
+                    }
+                }
+            });
+            //console.log(data)
+        }
+
+        function add(ele) {
+            var name = ele.id.split('-')[1];
+            var e = $('#' + name);
+            var card = e.find('.card');
+            var parent = card.parent();
+            parent.find('div').removeClass('animated');
+            var save = $('#save').html(parent.html()).html();
+            var htmlEle = card[card.length - 1];
+            var i = 0;
+            $(htmlEle).find('input').each(function () {
+                let name = this.id.split('-')[0];
+                let index = card.length + 1;
+                this.id = name + '-' + index;
+                this.removeAttribute('value');
+                let label = $(this).parent().find('label')[i++];
+                $(label).attr('for', this.id);
+            });
+            newData = '<div class="row card animated fadeInDown">' + $(htmlEle).html() + '</div>';
+            parent.html(save + newData);
+        }
+
+        function del(ele) {
+            var card = $(ele).parent().parent();
+            let len = card.parent().find('.card').length;
+            if (len <= 1) {
+                alert('Can not delete the only one node!')
+            } else {
+                card.remove();
+            }
+        }
+    </script>
+{% endblock %}
