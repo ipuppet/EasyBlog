@@ -1,0 +1,6 @@
+/app/config/admin.json
+/app/config/data.json
+/app/config/database.php
+/.idea
+/var/cache
+/var/logs
