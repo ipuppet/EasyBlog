@@ -2,6 +2,12 @@
 
 namespace EasyBlog\Core;
 
+use Twig\TemplateWrapper;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+use \Monolog\Logger;
+use Exception;
+
 final class WrapTwig
 {
     private $twig;
@@ -32,13 +38,13 @@ final class WrapTwig
             }
         }
         try {
-            $loader = new \Twig\Loader\FilesystemLoader($templates);
-            $this->twig = new \Twig\Environment($loader, array(
+            $loader = new FilesystemLoader($templates);
+            $this->twig = new Environment($loader, array(
                 'cache' => Kernel::getCacheDir(),
                 'debug' => $debug,
                 'auto_reload' => $debug,
             ));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $mse = $e->getMessage();
             $code = $e->getCode();
             $this->getLog()->addError("{$mse} Error code: {$code}");
@@ -48,9 +54,9 @@ final class WrapTwig
     /**
      * 初始化Monolog
      *
-     * @return  \Monolog\Logger monolog实例
+     * @return  Logger monolog实例
      */
-    private function getLog()
+    private function getLog(): Logger
     {
         //初始化Monolog
         if ($this->log === null)
@@ -92,13 +98,14 @@ final class WrapTwig
      *
      * @param string $templateName 模板名
      *
-     * @return $template $template实例
+     * @return TemplateWrapper $template $template实例
      */
-    public function load(string $templateName)
+    public function load(string $templateName): TemplateWrapper
     {
+        $template = null;
         try {
             $template = $this->twig->load($this->getTemplateName($templateName));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $mse = $e->getMessage();
             $code = $e->getCode();
             $this->getLog()->addError("{$mse} Error code: {$code}");

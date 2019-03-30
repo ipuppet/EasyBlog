@@ -2,6 +2,7 @@
 
 namespace EasyBlog\Core;
 
+use Aura\Router\Map;
 use Aura\Router\RouterContainer;
 use Zend\Diactoros\ServerRequestFactory;
 
@@ -98,9 +99,9 @@ final class Router
     /**
      * 获取Map
      *
-     * @return \Aura\Router\Map
+     * @return Map
      */
-    public function getMap()
+    public function getMap():Map
     {
         if ($this->map === null)
             $this->map = $this->routerContainer->getMap();

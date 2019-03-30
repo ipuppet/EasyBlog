@@ -2,6 +2,8 @@
 
 namespace EasyBlog\Core;
 
+use EasyBlog\Ext\htmlSecuritySplit;
+
 class Model
 {
     private $data;
@@ -151,7 +153,7 @@ class Model
      */
     private function wrapArticle(array $articles)
     {
-        $htmlSecuritySplit = new \EasyBlog\Ext\htmlSecuritySplit();
+        $htmlSecuritySplit = new htmlSecuritySplit();
         foreach ($articles as $key => $article) {
             if (!empty($article['content'])) {
                 $articles[$key]['content'] = html_entity_decode($article['content']);

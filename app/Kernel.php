@@ -5,6 +5,7 @@ namespace EasyBlog\Core;
 //导入Monolog的命名空间
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Exception;
 
 class Kernel
 {
@@ -16,7 +17,7 @@ class Kernel
             $log->pushHandler(new StreamHandler(
                     Kernel::getLogDir() . "/{$name}.log", Logger::WARNING)
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
         return $log;
