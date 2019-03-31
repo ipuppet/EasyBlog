@@ -10,13 +10,14 @@ class indexController extends Controller
     {
         $twig = $this->getTwig();
         $model = $this->getModel();
-        $limit = 100;
-        $offset = 0;
-        $articles = $model->getArticles($limit, $offset);
+        $page = isset($this->getAttr()['page']) ? $this->getAttr()['page'] : 1;
+        $result = $model->paging(3, $page);
         $template = $twig->load('index');
         $context = $template->render(
             [
-                'articles' => $articles,
+                'articles' => $result['articles'],
+                'page' => $page,
+                'pageCount' => $result['pageCount']
             ]
         );
         echo $context;

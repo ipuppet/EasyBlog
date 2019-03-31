@@ -26,6 +26,29 @@
                 <hr>
             </div>
         {% endfor %}
+        {#分页#}
+        <div class="pages">
+            <ul>
+                {#上一页#}
+                {% if page>1 %}
+                    <a href="/{{ page-1 }}">
+                        <li><span class="glyphicon glyphicon-menu-left"></span></li>
+                    </a>
+                {% endif %}
+                {#分页#}
+                {% for i in range(1,pageCount) %}
+                    <a href="/{{ i }}">
+                        <li>{{ i }}</li>
+                    </a>
+                {% endfor %}
+                {#list#}
+                {% if page<pageCount %}
+                    <a href="/{{ page+1 }}">
+                        <li><span class="glyphicon glyphicon-menu-right"></span></li>
+                    </a>
+                {% endif %}
+            </ul>
+        </div>
     </div>
     <script>
         $(document).ready(function () {

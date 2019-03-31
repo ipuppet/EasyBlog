@@ -207,6 +207,29 @@ final class WrapPdo
     }
 
     /**
+     * 获取总行数
+     *
+     * @return int 总数
+     */
+    public function count($table): int
+    {
+        $sql = "SELECT count(*) as count FROM {$table}";
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute();
+            //迭代结果
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $mse = $e->getMessage();
+            $code = $e->getCode();
+            $errStr = "Query error: ErrorMessage: {$mse} ErrorCode: {$code}";
+            //记录日志
+            $this->getLog()->addError($errStr);
+        }
+        return (int)$result['count'];
+    }
+
+    /**
      * 模糊查询
      *
      * @param string $table 数据表
