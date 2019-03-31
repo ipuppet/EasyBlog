@@ -7,7 +7,7 @@ return [
             '' => [
                 'route' => '/{page}',
                 'tokens' => [
-                    'page' => '.*'
+                    'page' => '[0-9]*'
                 ]
             ],
             'index.search' => [
