@@ -4,7 +4,12 @@ return [
     [
         'method' => 'get',
         'route' => [
-            '' => '/',
+            '' => [
+                'route' => '/{page}',
+                'tokens' => [
+                    'page' => '.*'
+                ]
+            ],
             'index.search' => [
                 'route' => '/search/{kw}',
                 'tokens' => [

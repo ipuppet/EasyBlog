@@ -223,6 +223,45 @@ class Model
     }
 
     /**
+     * 文章分页
+     *
+     * @param int $num 每页数量
+     * @param int $page 当前页
+     * @param array $where 限定条件
+     * @param array $orderBy 排序
+     *
+     * @return array 查询的文章列表
+     */
+    public function paging(int $num, int $page = 1, array $where = null, $orderBy = ['creatDate' => 'DESC'])
+    {
+        $pdo = $this->getPdo();
+        $articles = $pdo->getRows(
+            'article',
+            '*',
+            $where,
+            $num,
+            ($page - 1) * $num,
+            $orderBy
+        );
+        $result = [
+            'articles' => $this->wrapArticle($articles),
+            'pageCount' => (int)ceil($this->getCount() / $num)
+        ];
+        return $result;
+    }
+
+    /**
+     * 获取文章总数
+     *
+     * @return int 总数
+     */
+    public function getCount(): int
+    {
+        $pdo = $this->getPdo();
+        return $pdo->count('article');
+    }
+
+    /**
      * 搜索文章
      *
      * @param array $where 条件
