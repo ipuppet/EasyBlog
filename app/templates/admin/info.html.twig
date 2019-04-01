@@ -26,18 +26,15 @@
                 {% for item in banners %}
                     <div class="row card">
                         <div class="form-group">
-                            <label for="title-{{ loop.index }}">标题</label>
-                            <input class="form-control" id="title-{{ loop.index }}"
+                            <h4>标题</h4>
+                            <input class="form-control"
                                    type="text" value="{{ item.title }}" name="title">
-                            <label for="url-{{ loop.index }}">链接</label>
-                            <input class="form-control" id="url-{{ loop.index }}"
-                                   type="text" value="{{ item.url }}" name="url">
-                            <label for="abstract-{{ loop.index }}">摘要</label>
-                            <input class="form-control" id="abstract-{{ loop.index }}"
-                                   type="text" value="{{ item.abstract }}" name="abstract">
-                            <label for="background-{{ loop.index }}">背景</label>
-                            <input class="form-control" id="background-{{ loop.index }}"
-                                   type="text" value="{{ item.background }}" name="background">
+                            <h4>链接</h4>
+                            <input class="form-control" type="text" value="{{ item.url }}" name="url">
+                            <h4>摘要</h4>
+                            <input class="form-control" type="text" value="{{ item.abstract }}" name="abstract">
+                            <h4>背景</h4>
+                            <input class="form-control" type="text" value="{{ item.background }}" name="background">
                         </div>
                         <div class="form-group col-sm-2">
                             <button class="btn btn-danger" onclick="del(this)">删除</button>
@@ -51,16 +48,14 @@
             <button id="submit-banners" class="btn btn-default" onclick="sendData(this)">
                 提交
             </button>
-            <div id="save" style="display: none;"></div>
+            <div class="save" style="display: none;"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="tags">
             <div class="data-container">
                 {% for item in tags %}
                     <div class="row card">
                         <div class="form-group col-sm-10">
-                            <label for="item-{{ loop.index }}" style="display: none"></label>
-                            <input class="form-control" id="item-{{ loop.index }}"
-                                   type="text" value="{{ item }}" name="item">
+                            <input class="form-control" type="text" value="{{ item }}">
                         </div>
                         <div class="form-group col-sm-2">
                             <button class="btn btn-danger" onclick="del(this)">删除</button>
@@ -74,7 +69,7 @@
             <button id="submit-tags" class="btn btn-default" onclick="sendData(this)">
                 提交
             </button>
-            <div id="save" style="display: none;"></div>
+            <div class="save" style="display: none;"></div>
         </div>
     </div>
     <script>
@@ -98,13 +93,7 @@
 
         function sendData(ele) {
             var name = ele.id.split('-')[1];
-            switch (name) {
-                case 'banners':
-                    assoc = true;
-                    break;
-                default:
-                    assoc = false;
-            }
+            assoc = name === 'banners';
             var data = getData(ele, assoc);
             $.ajax({
                 url: "/admin/apiChangeInfo",
@@ -119,7 +108,7 @@
                         showMsg('更改成功，即将自动刷新页面。');
                         setTimeout("window.location.reload()", 1000);
                     } else {
-                        showMsg('error: '+ret.msg);
+                        showMsg('error: ' + ret.msg);
                     }
                 }
             });
@@ -128,23 +117,21 @@
 
         function add(ele) {
             var name = ele.id.split('-')[1];
-            var e = $('#' + name);
-            var card = e.find('.card');
+            var card = $('#' + name).find('.card');
             var parent = card.parent();
             parent.find('div').removeClass('animated');
-            var save = $('#save').html(parent.html()).html();
-            var htmlEle = card[card.length - 1];
-            var i = 0;
-            $(htmlEle).find('input').each(function () {
-                let name = this.id.split('-')[0];
-                let index = card.length + 1;
-                this.id = name + '-' + index;
-                this.removeAttribute('value');
-                let label = $(this).parent().find('label')[i++];
-                $(label).attr('for', this.id);
-            });
-            newData = '<div class="row card animated fadeInDown">' + $(htmlEle).html() + '</div>';
-            parent.html(save + newData);
+            if (parent.parent().find('.save').html() === '') {
+                let cardContent = card.html();
+                let saveContainer = parent.parent().find('.save');
+                saveContainer.html(cardContent);
+                saveContainer.find('input').each(function () {
+                    $(this).attr('value', '');
+                })
+            }
+            var save = parent.parent().find('.save').html();
+
+            newData = '<div class="row card animated fadeInDown">' + save + '</div>';
+            parent.append(newData);
         }
 
         function del(ele) {

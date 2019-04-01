@@ -8,9 +8,8 @@
     background: #ffffff;
     border: 0.5px solid #dddddd;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
-
-.tab-content {
-    margin-bottom: 30px;
+#tags .form-group{
+    margin: 0;
 }
