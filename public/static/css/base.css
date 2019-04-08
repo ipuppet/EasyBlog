@@ -155,14 +155,15 @@ img {
 }
 
 .banner-title {
-    font-size: 26px;
+    font-size: 18px;
+    margin-bottom: 25px;
 }
 
 .banner-content {
     margin-top: 10px;
     width: 50%;
     margin-left: 50%;
-    font-size: 14px;
+    font-size: 16px;
     text-align: right;
     word-wrap: break-word;
     word-break: normal;
