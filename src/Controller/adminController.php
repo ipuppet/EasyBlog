@@ -11,9 +11,11 @@ class adminController extends Controller
         session_start();
         parent::__construct();
         $handler = $this->getHandler();
-        if (empty($_SESSION['user']) && $handler !== 'admin.login' && $handler !== 'admin.apiLogin') {
+        if (empty($_SESSION['admin']) && $handler !== 'admin.login' && $handler !== 'admin.apiLogin') {
             header("Location: /admin/login");
             return;
+        } else {
+            $this->addGlobalToTwig('admin', @$_SESSION['admin']);
         }
     }
 
@@ -86,7 +88,7 @@ class adminController extends Controller
         $password = filter_input(INPUT_POST, 'password');
         $result = $model->tryLoginAdmin($username, $password);
         if (is_bool($result) && $result) {
-            $_SESSION['user']['username'] = $username;
+            $_SESSION['admin']['username'] = $username;
             echo '{"state":"1"}';
         } else {
             echo '{"state":"0","msg":"' . $result . '"}';

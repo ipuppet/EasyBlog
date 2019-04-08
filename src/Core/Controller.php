@@ -16,14 +16,18 @@ class Controller
     /**
      * 将数据存放至twig的全局变量中
      */
-    private function addGlobalToTwig()
+    protected function addGlobalToTwig($name = null, $value = null)
     {
         $twig = $this->getTwig();
-        $model = $this->getModel();
-        //添加的数据
-        $twig->addGlobal('about', $model->getAbout());
-        $twig->addGlobal('banners', $model->getBanners());
-        $twig->addGlobal('tags', $model->getTags());
+        if ($name === null) {
+            $model = $this->getModel();
+            //添加的数据
+            $twig->addGlobal('about', $model->getAbout());
+            $twig->addGlobal('banners', $model->getBanners());
+            $twig->addGlobal('tags', $model->getTags());
+        } else {
+            $twig->addGlobal($name, $value);
+        }
     }
 
     /**

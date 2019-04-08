@@ -6,26 +6,53 @@
     <script src="/public/static/library/jquery-3.3.1.min.js"></script>
     <script src="/public/static/library/imagesloaded.pkgd.min.js"></script>
     <script src="/public/static/library/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/public/static/library/swiper-4.5.0/swiper.min.js"></script>
     <link rel="stylesheet" href="/public/static/library/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/public/static/library/animate.css"/>
-    <link rel="stylesheet" href="/public/static/library/swiper-4.5.0/swiper.min.css">
     <link rel="stylesheet" href="/public/static/css/admin/base.css"/>
     <title>{% block title %}后台管理{% endblock %}</title>
     {% block head %}{% endblock %}
 </head>
 <body>
-<div class="header">
-    <span>后台管理</span>
-    {% block nav_menu %}
-        <ul class="nav-menu">
-            <li><a href="/admin">首页</a></li>
-            <li><a href="/admin/info">杂项管理</a></li>
-            <li><a href="/admin/articleManager/">添加文章</a></li>
-        </ul>
-    {% endblock %}
+<div class="menu">
+    <ul>
+        <li>
+            <a href="/admin">
+                <div>
+                    <span class="glyphicon glyphicon-home"></span>
+                    <span class="menu-text">首页</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/info">
+                <div>
+                    <span class="glyphicon glyphicon-paperclip"></span>
+                    <span class="menu-text">杂项管理</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/articleManager/">
+                <div>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <span class="menu-text">添加文章</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <div class="menuControl">
+        <span class="glyphicon glyphicon-menu-left" onclick="menuControl(this)"></span>
+    </div>
 </div>
-{% block body %}{% endblock %}
+<div class="body">
+    <div class="header">
+        <span>欢迎您：{{ admin.username }}</span>
+    </div>
+    {% block body %}{% endblock %}
+</div>
+<script>
+
+</script>
 <div class="global-msg-box animated"></div>
 <script>
     var t_for_global_msg_box;
@@ -38,6 +65,32 @@
             e.addClass('fadeOut').removeClass('fadeIn');
         }, time);
     }
+
+    function menuControl(btn) {
+        var menu = $(".menu");
+        var body = $(".body");
+        if (menu.width() === 200) {
+            $(btn).css('transform', 'rotate(180deg)');
+            menu.width(40);
+            $('.menu-text').hide();
+            body.width(body.width() + 160).css('left', '40px')
+        } else {
+            $(btn).css('transform', 'rotate(0deg)');
+            menu.width(200);
+            $('.menu-text').fadeIn();
+            body.width(body.width() - 160).css('left', '200px')
+        }
+    }
+
+    function adjustWindow() {
+        var menu = $(".menu");
+        $(".body").width(window.innerWidth - menu.width()).css('left', menu.width() + 'px')
+    }
+
+    adjustWindow();
+    $(window).resize(function () {
+        adjustWindow()
+    })
 </script>
 </body>
 </html>
