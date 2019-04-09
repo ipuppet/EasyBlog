@@ -66,6 +66,7 @@
         }, time);
     }
 
+    //菜单控制按钮，控制显示和隐藏
     function menuControl(btn) {
         var menu = $(".menu");
         var body = $(".body");
@@ -87,9 +88,19 @@
         $(".body").width(window.innerWidth - menu.width()).css('left', menu.width() + 'px')
     }
 
+    //调整窗口
     adjustWindow();
+
+    //监听窗口大小变化
     $(window).resize(function () {
         adjustWindow()
+    });
+
+    //判断当前栏目
+    $('.menu a').each(function () {
+        if (window.location.pathname === $(this).attr('href')) {
+            $(this).css('color', '#44bed1');
+        }
     })
 </script>
 </body>
