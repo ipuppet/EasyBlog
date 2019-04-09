@@ -2,16 +2,14 @@
 
 namespace EasyBlog\Core;
 
-use Aura\Router\Map;
 use Aura\Router\RouterContainer;
 use Zend\Diactoros\ServerRequestFactory;
 
-final class Router
+final class Router implements IRouter
 {
     private $routerContainer;
     private $request;
     private $route;
-    private $map;
     private $matcher;
     private static $instance;
 
@@ -97,23 +95,32 @@ final class Router
     }
 
     /**
-     * 获取Map
+     * 添加路由
      *
-     * @return Map
+     * @param array $routes 详细路由信息
      */
-    public function getMap():Map
+    public function addRoute(array $routes)
     {
-        if ($this->map === null)
-            $this->map = $this->routerContainer->getMap();
-        return $this->map;
+        $map = $this->routerContainer->getMap();
+        foreach ($routes as $route) {
+            $method = $route['method'];
+            foreach ($route['route'] as $name => $rule) {
+                if (is_array($rule)) {
+                    $map->$method($name, $rule['route'])
+                        ->tokens($rule['tokens']);
+                } else {
+                    $map->$method($name, $rule);
+                }
+            }
+        }
     }
 
     /**
      * 获取路由传入的参数
      *
-     * @return $this->match()->attributes
+     * @return array
      */
-    public function getAttr()
+    public function getAttr(): array
     {
         return $this->match()->attributes;
     }
@@ -121,9 +128,9 @@ final class Router
     /**
      * 获取控制器和方法
      *
-     * @return $this->match()->handler
+     * @return string
      */
-    public function getHandler()
+    public function getHandler(): string
     {
         return $this->match()->handler;
     }
