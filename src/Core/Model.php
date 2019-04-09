@@ -7,18 +7,22 @@ use EasyBlog\Ext\htmlSecuritySplit;
 class Model
 {
     private $data;
-    private $pdo;
+    private $dbHandler;
 
     /**
      * 获取pdo实例
      *
-     * @return WrapPdo
+     * @return IDbHandler
      */
-    private function getPdo(): WrapPdo
+    private function getDbHandler(): IDbHandler
     {
-        if ($this->pdo === null)
-            $this->pdo = WrapPdo::getInstance();
-        return $this->pdo;
+        if ($this->dbHandler === null){
+            $this->dbHandler = WrapPdo::getInstance();
+            if (!($this->dbHandler instanceof IDbHandler)){
+                die('未能实现IDbHandler接口');
+            }
+        }
+        return $this->dbHandler;
     }
 
     /**
@@ -174,7 +178,7 @@ class Model
      */
     public function getLast(): array
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         return $pdo->getOneRow('article', '*', null, ['aid' => 'DESC']);
     }
 
@@ -189,7 +193,7 @@ class Model
      */
     public function getArticle(string $aid, string $column = '*', $orderBy = null)
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         $result = $pdo->getOneRow('article', $column, ['aid' => $aid], $orderBy);
         return $this->wrapArticle([$result])[0];
     }
@@ -206,7 +210,7 @@ class Model
      */
     public function getArticles(int $limit = 1000, int $offset = 0, array $where = null, $orderBy = ['creatDate' => 'DESC'])
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         if ($where === null) {
             $result = $pdo->getRows(
                 'article',
@@ -234,7 +238,7 @@ class Model
      */
     public function paging(int $num, int $page = 1, array $where = null, $orderBy = ['creatDate' => 'DESC'])
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         $articles = $pdo->getRows(
             'article',
             '*',
@@ -257,7 +261,7 @@ class Model
      */
     public function getCount(): int
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         return $pdo->count('article');
     }
 
@@ -273,7 +277,7 @@ class Model
      */
     public function search(array $where = null, int $limit = 100, int $offset = 0, array $orderBy = ['creatDate' => 'DESC'])
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         $result = $pdo->search(
             'article',
             '*',
@@ -300,7 +304,7 @@ class Model
      */
     public function addArticle(string $title, string $original, string $html, string $tags): bool
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         $creatDate = date('Y-m-d H:i:s');
         $data = [
             'creatDate' => $creatDate,
@@ -322,7 +326,7 @@ class Model
      */
     public function updateArticle(array $data, $aid): bool
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         return $pdo->update('article', $data, ['aid' => $aid]);
     }
 
@@ -335,7 +339,7 @@ class Model
      */
     public function deleteArticle(string $aid): bool
     {
-        $pdo = $this->getPdo();
+        $pdo = $this->getDbHandler();
         return $pdo->delete('article', ['aid' => $aid]);
     }
 }

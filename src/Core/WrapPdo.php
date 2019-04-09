@@ -11,7 +11,7 @@ use PDOException;
  * 调用静态方法\App\Core\WrapPdo::getInstance()获取实例
 */
 
-final class WrapPdo
+final class WrapPdo implements IDbHandler
 {
     private $pdo;
     private $log;
@@ -165,7 +165,7 @@ final class WrapPdo
      * @param array $config 数据库连接信息
      * @return WrapPdo
      */
-    public static function getInstance(array $config = null): WrapPdo
+    public static function getInstance(array $config = null): IDbHandler
     {
         if (self::$instance === null)
             self::$instance = new self($config);

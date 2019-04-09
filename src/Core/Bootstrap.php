@@ -10,7 +10,7 @@ final class Bootstrap
     {
         $instance = new self();
         $config = $instance->getRouteConfig();
-        $instance->addRoute($config);
+        $instance->getRoute()->addRoute($config);
         $instance->disPath();
     }
 
@@ -30,22 +30,6 @@ final class Bootstrap
         return include Kernel::getConfig('route');
     }
 
-    private function addRoute($configs)
-    {
-        $router = $this->getRoute();
-        $map = $router->getMap();
-        foreach ($configs as $config) {
-            $method = $config['method'];
-            foreach ($config['route'] as $name => $route) {
-                if (is_array($route)) {
-                    $map->$method($name, $route['route'])
-                        ->tokens($route['tokens']);
-                } else {
-                    $map->$method($name, $route);
-                }
-            }
-        }
-    }
 
     private function disPath()
     {
