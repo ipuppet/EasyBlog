@@ -45,15 +45,14 @@ class adminController extends Controller
     {
         $twig = $this->getTwig();
         $model = $this->getModel();
+        $module = $this->getAttr()['module'];
         $template = $twig->load('info');
-        $tags = $model->getTags();
-        $banners = $model->getBanners();
-        $context = $template->render(
-            [
-                'tags' => $tags,
-                'banners' => $banners
-            ]
-        );
+        $action = 'get' . ucfirst($module);
+        $data = $model->$action();
+        $context = $template->render([
+            'data' => $data,
+            'module' => $module
+        ]);
         echo $context;
     }
 
@@ -70,6 +69,7 @@ class adminController extends Controller
         );
         echo $context;
     }
+
     public function articleManagerAction()
     {
         $twig = $this->getTwig();

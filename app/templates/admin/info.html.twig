@@ -4,37 +4,27 @@
     <link rel="stylesheet" href="/public/static/css/admin/info.css">
 {% endblock %}
 {% block body %}
-    <div class="menu-container col-sm-3">
-        <!-- Nav tabs -->
-        <ul class="nav nav-pills nav-stacked" role="tablist">
-            <li role="presentation" class="info-container active">
-                <a href="#banners" aria-controls="banners" role="tab" data-toggle="tab">
-                    横幅
-                </a>
-            </li>
-            <li role="presentation" class="info-container">
-                <a href="#tags" aria-controls="tags" role="tab" data-toggle="tab">
-                    标签
-                </a>
-            </li>
-        </ul>
-    </div>
-    <!-- Tab panes -->
-    <div class="tab-content col-sm-9">
-        <div role="tabpanel" class="tab-pane active" id="banners">
+    <div class="container-fluid">
+        <div role="tabpanel" class="tab-pane active" id="{{ module }}">
             <div class="data-container">
-                {% for item in banners %}
+                {% for item in data %}
                     <div class="row card">
                         <div class="form-group">
-                            <h4>标题</h4>
-                            <input class="form-control"
-                                   type="text" value="{{ item.title }}" name="title">
-                            <h4>链接</h4>
-                            <input class="form-control" type="text" value="{{ item.url }}" name="url">
-                            <h4>摘要</h4>
-                            <input class="form-control" type="text" value="{{ item.abstract }}" name="abstract">
-                            <h4>背景</h4>
-                            <input class="form-control" type="text" value="{{ item.background }}" name="background">
+                            {% if module=='banners' %}
+                                <h4>标题</h4>
+                                <input class="form-control"
+                                       type="text" value="{{ item.title }}" name="title">
+                                <h4>链接</h4>
+                                <input class="form-control" type="text" value="{{ item.url }}" name="url">
+                                <h4>摘要</h4>
+                                <input class="form-control" type="text" value="{{ item.abstract }}" name="abstract">
+                                <h4>背景</h4>
+                                <input class="form-control" type="text" value="{{ item.background }}" name="background">
+                            {% elseif module=='tags' %}
+                                <div class="form-group col-sm-10">
+                                    <input class="form-control" type="text" value="{{ item }}">
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="form-group col-sm-2">
                             <button class="btn btn-danger" onclick="del(this)">删除</button>
@@ -42,31 +32,10 @@
                     </div>
                 {% endfor %}
             </div>
-            <button id="add-banners" class="btn btn-default" onclick="add(this)">
+            <button id="add-{{ module }}" class="btn btn-default" onclick="add(this)">
                 +
             </button>
-            <button id="submit-banners" class="btn btn-default" onclick="sendData(this)">
-                提交
-            </button>
-            <div class="save" style="display: none;"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="tags">
-            <div class="data-container">
-                {% for item in tags %}
-                    <div class="row card">
-                        <div class="form-group col-sm-10">
-                            <input class="form-control" type="text" value="{{ item }}">
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <button class="btn btn-danger" onclick="del(this)">删除</button>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <button id="add-tags" class="btn btn-default" onclick="add(this)">
-                +
-            </button>
-            <button id="submit-tags" class="btn btn-default" onclick="sendData(this)">
+            <button id="submit-{{ module }}" class="btn btn-default" onclick="sendData(this)">
                 提交
             </button>
             <div class="save" style="display: none;"></div>
