@@ -57,6 +57,19 @@ class adminController extends Controller
         echo $context;
     }
 
+    public function articleListAction()
+    {
+        $twig = $this->getTwig();
+        $template = $twig->load('articleList');
+        $model = $this->getModel();
+        $articles = $model->getArticles();
+        $context = $template->render(
+            [
+                'articles' => $articles,
+            ]
+        );
+        echo $context;
+    }
     public function articleManagerAction()
     {
         $twig = $this->getTwig();

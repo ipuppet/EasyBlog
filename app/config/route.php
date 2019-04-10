@@ -30,6 +30,7 @@ return [
             'admin.index' => '/admin',
             'admin.login' => '/admin/login',
             'admin.info' => '/admin/info',
+            'admin.articleList' => '/admin/articleList',
             'admin.articleManager' =>
                 [
                     'route' => '/admin/articleManager/{aid}',
