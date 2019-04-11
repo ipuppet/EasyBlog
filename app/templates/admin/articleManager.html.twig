@@ -57,7 +57,7 @@
                                 },
                                 success: function (ret) {
                                     showMsg('删除成功');
-                                    setTimeout("window.location.href='/admin'", 1000);
+                                    setTimeout("window.location.href='/admin/articleList'", 1000);
                                     console.log(ret)
                                 }
                             })
@@ -130,7 +130,7 @@
                     ret = JSON.parse(ret);
                     if (ret.state === '1') {
                         showMsg('操作成功');
-                        setTimeout("window.location.href='/admin'", 1000);
+                        setTimeout("window.location.href='/admin/articleList'", 1000);
                     }
                 }
             })
