@@ -154,12 +154,12 @@ img {
     transition: 0.3s;
 }
 
-.banner-title {
+.banner-content {
     font-size: 18px;
     margin-bottom: 25px;
 }
 
-.banner-content {
+.banner-author {
     margin-top: 10px;
     width: 50%;
     margin-left: 50%;
