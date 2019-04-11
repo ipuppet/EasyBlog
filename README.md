@@ -37,7 +37,8 @@ data.json
 
     {
       "about": {
-        "name": "your name"
+        "name": "your name",
+        "motto": "一个人至少拥有一个梦想，有一个理由去坚强。心若没有栖息的地方，到哪里都是在流浪。"
       },
       "banners": [
         {
