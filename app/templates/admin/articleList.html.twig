@@ -1,0 +1,31 @@
+{% extends 'adminBase.html.twig' %}
+{% block title %}后台管理{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/public/static/css/admin/articleList.css"/>
+{% endblock %}
+{% block body %}
+    <div class="col-sm-12">
+        {% for article in articles %}
+            <div class="article">
+                <div class="title">
+                    <a href="/admin/articleManager/{{ article.aid }}">{{ article.title }}</a>
+                </div>
+                <div class="info">
+                    <span>{{ article.creatDate }}</span>
+                    {% if article.tags|length>0 %}
+                        &nbsp;|&nbsp;标签：
+                        {% for tag in article.tags %}
+                            <span class="tag">{{ tag }}</span>&nbsp;
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div>
+                    {{ article.content|striptags|slice(0,300) }}
+                    {% if article.content|length >100 %}
+                        ...
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

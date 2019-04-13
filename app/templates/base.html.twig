@@ -23,7 +23,7 @@
             <span>Welcome To {{ about.name|title }}'s Blog</span>
         </div>
         <div class="sentence-container">
-            一个人至少拥有一个梦想，有一个理由去坚强。心若没有栖息的地方，到哪里都是在流浪。
+            {{ about.motto }}
         </div>
     </div>
 </div>
@@ -97,10 +97,10 @@
                             <div class="swiper-slide" style="background{{ bgstyle }}">
                                 <a href="{{ banner.url }}">
                                     <div class="banner-block">
-                                        <div class="banner-title" data-swiper-parallax="-400">
+                                        <div class="banner-content" data-swiper-parallax="-200">
                                             {{ banner.title }}
                                         </div>
-                                        <div class="banner-content" data-swiper-parallax="-300">
+                                        <div class="banner-author" data-swiper-parallax="-350">
                                             {{ banner.abstract }}
                                         </div>
                                     </div>

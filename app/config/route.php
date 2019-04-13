@@ -29,7 +29,8 @@ return [
         'route' => [
             'admin.index' => '/admin',
             'admin.login' => '/admin/login',
-            'admin.info' => '/admin/info',
+            'admin.info' => '/admin/info/{module}',
+            'admin.articleList' => '/admin/articleList',
             'admin.articleManager' =>
                 [
                     'route' => '/admin/articleManager/{aid}',

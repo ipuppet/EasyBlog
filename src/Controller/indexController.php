@@ -11,7 +11,7 @@ class indexController extends Controller
         $twig = $this->getTwig();
         $model = $this->getModel();
         $page = isset($this->getAttr()['page']) ? $this->getAttr()['page'] : 1;
-        $result = $model->paging(3, $page);
+        $result = $model->paging(5, $page);
         $template = $twig->load('index');
         $context = $template->render(
             [

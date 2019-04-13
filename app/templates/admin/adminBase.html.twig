@@ -24,10 +24,33 @@
             </a>
         </li>
         <li>
-            <a href="/admin/info">
+            <div onclick="secondaryMenu(this)">
+                <span class="glyphicon glyphicon-paperclip"></span>
+                <span class="menu-text">杂项管理</span>
+                <span class="glyphicon glyphicon-menu-down"></span>
+            </div>
+            <ul class="secondaryMenu">
+                <li>
+                    <a href="/admin/info/banners">
+                        <div>
+                            <span class="glyphicon glyphicon-blackboard"></span>横幅
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/info/tags">
+                        <div>
+                            <span class="glyphicon glyphicon-tag"></span>标签
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/admin/articleList">
                 <div>
-                    <span class="glyphicon glyphicon-paperclip"></span>
-                    <span class="menu-text">杂项管理</span>
+                    <span class="glyphicon glyphicon-list"></span>
+                    <span class="menu-text">文章管理</span>
                 </div>
             </a>
         </li>
@@ -56,37 +79,7 @@
 <div class="global-msg-box animated"></div>
 <script>
     var t_for_global_msg_box;
-
-    function showMsg(msg, time = 1500) {
-        var e = $('.global-msg-box');
-        e.text(msg).show().addClass('fadeIn').removeClass('fadeOut');
-        clearTimeout(t_for_global_msg_box);
-        t_for_global_msg_box = setTimeout(function () {
-            e.addClass('fadeOut').removeClass('fadeIn');
-        }, time);
-    }
-
-    //菜单控制按钮，控制显示和隐藏
-    function menuControl(btn) {
-        var menu = $(".menu");
-        var body = $(".body");
-        if (menu.width() === 200) {
-            $(btn).css('transform', 'rotate(180deg)');
-            menu.width(40);
-            $('.menu-text').hide();
-            body.width(body.width() + 160).css('left', '40px')
-        } else {
-            $(btn).css('transform', 'rotate(0deg)');
-            menu.width(200);
-            $('.menu-text').fadeIn();
-            body.width(body.width() - 160).css('left', '200px')
-        }
-    }
-
-    function adjustWindow() {
-        var menu = $(".menu");
-        $(".body").width(window.innerWidth - menu.width()).css('left', menu.width() + 'px')
-    }
+    var ifSecondaryMenu = false;
 
     //调整窗口
     adjustWindow();
@@ -100,8 +93,72 @@
     $('.menu a').each(function () {
         if (window.location.pathname === $(this).attr('href')) {
             $(this).css('color', '#44bed1');
+            if ($(this).parent().parent().attr('class') === 'secondaryMenu') {
+                ifSecondaryMenu = true;
+                var ele = $(".menu").find('.secondaryMenu').parent().find('div');
+                secondaryMenu(ele);
+            }
         }
-    })
+    });
+
+    function showMsg(msg, time = 1500) {
+        var e = $('.global-msg-box');
+        e.text(msg).show().addClass('fadeIn').removeClass('fadeOut');
+        clearTimeout(t_for_global_msg_box);
+        t_for_global_msg_box = setTimeout(function () {
+            e.addClass('fadeOut').removeClass('fadeIn');
+        }, time);
+    }
+
+    //菜单控制按钮，控制显示和隐藏
+    function menuControl(btn, trigger = false) {
+        var menu = $(".menu");
+        var body = $(".body");
+        var secondaryMenuEle = menu.find('.secondaryMenu').parent().find('div');
+        if (menu.width() === 200) {
+            $(btn).css('transform', 'rotate(180deg)');
+            menu.width(40);
+            if (menu.find('.secondaryMenu').css('display') !== 'none') {
+                secondaryMenu(secondaryMenuEle);
+            }
+            $('.menu-text').hide();
+            body.width(body.width() + 160).css('left', '40px');
+        } else {
+            $(btn).css('transform', 'rotate(0deg)');
+            menu.width(200);
+            $('.menu-text').fadeIn();
+            body.width(body.width() - 160).css('left', '200px');
+            if (ifSecondaryMenu && !trigger) {
+                secondaryMenu(secondaryMenuEle, true)
+            }
+        }
+    }
+
+    function secondaryMenu(ele, trigger = false) {
+        var menu = $(".menu");
+        if (trigger) {
+            menuControl($('.menuControl').find('span'), true)
+        } else if (menu.width() !== 200) {
+            menuControl($('.menuControl').find('span'), true)
+        }
+        var e = $(ele);
+        var eleLi = e.parent();
+        if (eleLi.find('.secondaryMenu').css('display') === 'none') {
+            let newHeight = (eleLi.find('.secondaryMenu li').length + 1) * 50;
+            eleLi.height(newHeight + 'px');
+            eleLi.find('.secondaryMenu').show();
+            e.find('.glyphicon-menu-down').css('transform', 'rotate(180deg)');
+        } else {
+            eleLi.height('50px');
+            eleLi.find('.secondaryMenu').hide(300);
+            e.find('.glyphicon-menu-down').css('transform', 'rotate(0deg)');
+        }
+    }
+
+    function adjustWindow() {
+        var menu = $(".menu");
+        $(".body").width(window.innerWidth - menu.width()).css('left', menu.width() + 'px')
+    }
 </script>
 </body>
 </html>

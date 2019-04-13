@@ -35,7 +35,7 @@
                         <li><a onclick="addTag(this)">{{ tag }}</a></li>
                     {% endfor %}
                     <li role="separator" class="divider"></li>
-                    <li><a href="/admin/info" target="_blank">编辑标签</a></li>
+                    <li><a href="/admin/info/tags" target="_blank">编辑标签</a></li>
                 </ul>
             </div>
             <div id="editormd">
@@ -57,7 +57,7 @@
                                 },
                                 success: function (ret) {
                                     showMsg('删除成功');
-                                    setTimeout("window.location.href='/admin'", 1000);
+                                    setTimeout("window.location.href='/admin/articleList'", 1000);
                                     console.log(ret)
                                 }
                             })
@@ -130,7 +130,7 @@
                     ret = JSON.parse(ret);
                     if (ret.state === '1') {
                         showMsg('操作成功');
-                        setTimeout("window.location.href='/admin'", 1000);
+                        setTimeout("window.location.href='/admin/articleList'", 1000);
                     }
                 }
             })

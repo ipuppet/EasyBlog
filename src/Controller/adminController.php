@@ -45,13 +45,26 @@ class adminController extends Controller
     {
         $twig = $this->getTwig();
         $model = $this->getModel();
+        $module = $this->getAttr()['module'];
         $template = $twig->load('info');
-        $tags = $model->getTags();
-        $banners = $model->getBanners();
+        $action = 'get' . ucfirst($module);
+        $data = $model->$action();
+        $context = $template->render([
+            'data' => $data,
+            'module' => $module
+        ]);
+        echo $context;
+    }
+
+    public function articleListAction()
+    {
+        $twig = $this->getTwig();
+        $template = $twig->load('articleList');
+        $model = $this->getModel();
+        $articles = $model->getArticles();
         $context = $template->render(
             [
-                'tags' => $tags,
-                'banners' => $banners
+                'articles' => $articles,
             ]
         );
         echo $context;
@@ -131,6 +144,7 @@ class adminController extends Controller
         $title = filter_input(INPUT_POST, 'title');
         $tags = filter_input(INPUT_POST, 'tags');
         $original = filter_input(INPUT_POST, 'original');
+        $original = htmlspecialchars($original,ENT_QUOTES);
         $html = filter_input(INPUT_POST, 'html');
         $html = htmlentities($html, ENT_QUOTES, 'UTF-8');
         $data = [
@@ -140,7 +154,7 @@ class adminController extends Controller
             'tags' => $tags,
             'lastChangeDate' => date('Y-m-d H:i:s')
         ];
-        $result = $model->updateArticle($data, $aid);
+        $result = $model->updateArticle($data, (int)$aid);
         if ($result)
             echo '{"state":"1"}';
         else

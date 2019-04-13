@@ -35,6 +35,7 @@ body {
     background: #304156;
     transition: 0.3s;
     font-size: 16px;
+    color: #ffffff;
 }
 
 .menu span {
@@ -50,18 +51,44 @@ body {
 .menu ul li {
     height: 50px;
     line-height: 50px;
-    padding: 0 10px 0 10px;
-    border-bottom: 1px solid rgba(238, 238, 238, 0.1);
+    cursor: pointer;
     transition: 0.3s;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(238, 238, 238, 0.1);
 }
 
-.menu ul li:hover {
+.menu ul li div {
+    transition: 0.3s;
+    padding: 0 10px 0 10px;
+}
+
+.menu ul li div:hover {
     background: #223041;
 }
 
 .menu a {
     color: #ffffff;
     text-decoration: none;
+}
+
+.glyphicon-menu-down {
+    float: right;
+    margin-right: 20px;
+    margin-top: 13px;
+    transition: 0.3s;
+}
+
+.secondaryMenu {
+    display: none;
+}
+
+.secondaryMenu li {
+    transition: 0.3s;
+    padding: 0 10px 0 30px;
+}
+
+.secondaryMenu li:hover {
+    background: #223041;
 }
 
 .menuControl {
@@ -72,6 +99,7 @@ body {
 }
 
 .menuControl span {
+    cursor: pointer;
     transition: 0.3s;
 }
 

@@ -5,35 +5,6 @@
 {% endblock %}
 {% block body %}
     <div class="col-sm-12">
-        {% for article in articles %}
-            <div class="article animated zoomIn">
-                <div class="title">
-                    <a href="/admin/articleManager/{{ article.aid }}">{{ article.title }}</a>
-                </div>
-                <div class="info">
-                    <span>{{ article.creatDate }}</span>
-                    {% if article.tags|length>0 %}
-                        &nbsp;|&nbsp;标签：
-                        {% for tag in article.tags %}
-                            <span class="tag">{{ tag }}</span>&nbsp;
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div>
-                    {{ article.content|striptags|slice(0,300) }}
-                    {% if article.content|length >100 %}
-                        ...
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
+        Home
     </div>
-    <script>
-        //添加动画
-        listDelay = 500;
-        $('.article').each(function () {
-            $(this).css('animation-delay', listDelay + 'ms');
-            listDelay += 200;
-        })
-    </script>
 {% endblock %}
