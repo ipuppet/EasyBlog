@@ -320,11 +320,11 @@ class Model
      * 更改文章
      *
      * @param array $data 要更改的数据
-     * @param array $aid 文章id
+     * @param int $aid 文章id
      *
      * @return bool
      */
-    public function updateArticle(array $data, $aid): bool
+    public function updateArticle(array $data,int $aid): bool
     {
         $pdo = $this->getDbHandler();
         return $pdo->update('article', $data, ['aid' => $aid]);

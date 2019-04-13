@@ -144,6 +144,7 @@ class adminController extends Controller
         $title = filter_input(INPUT_POST, 'title');
         $tags = filter_input(INPUT_POST, 'tags');
         $original = filter_input(INPUT_POST, 'original');
+        $original = htmlspecialchars($original,ENT_QUOTES);
         $html = filter_input(INPUT_POST, 'html');
         $html = htmlentities($html, ENT_QUOTES, 'UTF-8');
         $data = [
@@ -153,7 +154,7 @@ class adminController extends Controller
             'tags' => $tags,
             'lastChangeDate' => date('Y-m-d H:i:s')
         ];
-        $result = $model->updateArticle($data, $aid);
+        $result = $model->updateArticle($data, (int)$aid);
         if ($result)
             echo '{"state":"1"}';
         else
