@@ -40,7 +40,7 @@
             </div>
             <div id="editormd">
                 <textarea class="editormd-markdown-textarea"
-                          name="editormd-markdown-doc">{% if article != 0 %}{{ article.original }}{% endif %}</textarea>
+                          name="editormd-markdown-doc">{% if article != 0 %}{{ article.original|raw }}{% endif %}</textarea>
                 <textarea class="editormd-html-textarea" name="editormd-html-code"></textarea>
             </div>
             <button onclick="return submitMarkdown();" class="btn btn-primary">保存</button>
