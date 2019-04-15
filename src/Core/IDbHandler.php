@@ -43,9 +43,10 @@ interface IDbHandler
     /**
      * 获取总行数
      *
+     * @param string $table
      * @return int 总数
      */
-    public function count($table): int;
+    public function count(string $table): int;
 
     /**
      * 模糊查询
