@@ -31,7 +31,8 @@
                     <a>{{ previous.title }}</a>
                 {% else %}
                     <a href="/detail/{{ previous.aid }}">
-                        {{ previous.title }}
+                        {{ previous.title|slice(0,8) }}
+                        {% if article.title|length >8 %}...{% endif %}
                     </a>
                 {% endif %}
             </div>
@@ -41,7 +42,8 @@
                     <a>{{ next.title }}</a>
                 {% else %}
                     <a href="/detail/{{ next.aid }}">
-                        {{ next.title }}
+                        {{ next.title|slice(0,8) }}
+                        {% if article.title|length >8 %}...{% endif %}
                     </a>
                 {% endif %}
             </div>

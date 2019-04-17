@@ -38,10 +38,10 @@
                 {#分页#}
                 {% for i in range(1,pageCount) %}
                     <a href="/{{ i }}">
-                        <li>{{ i }}</li>
+                        <li {% if i==page %}style="border: 1px solid #4079aa;color: #4079aa;"{% endif %}>{{ i }}</li>
                     </a>
                 {% endfor %}
-                {#list#}
+                {#下一页#}
                 {% if page<pageCount %}
                     <a href="/{{ page+1 }}">
                         <li><span class="glyphicon glyphicon-menu-right"></span></li>
