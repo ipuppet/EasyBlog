@@ -1,9 +1,6 @@
 {% extends "base.html.twig" %}
 {% block title %}
-    {{ article.title|slice(0,10) }}
-    {% if article.title|length >10 %}
-        ...
-    {% endif %}
+    {{ article.title }}
 {% endblock %}
 {% block head %}
     <link rel="stylesheet" href="/public/static/css/detail.css"/>
@@ -31,8 +28,7 @@
                     <a>{{ previous.title }}</a>
                 {% else %}
                     <a href="/detail/{{ previous.aid }}">
-                        {{ previous.title|slice(0,8) }}
-                        {% if article.title|length >8 %}...{% endif %}
+                        {{ previous.title }}
                     </a>
                 {% endif %}
             </div>
@@ -42,8 +38,7 @@
                     <a>{{ next.title }}</a>
                 {% else %}
                     <a href="/detail/{{ next.aid }}">
-                        {{ next.title|slice(0,8) }}
-                        {% if article.title|length >8 %}...{% endif %}
+                        {{ next.title }}
                     </a>
                 {% endif %}
             </div>

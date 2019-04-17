@@ -18,7 +18,11 @@ class detailController extends Controller
             $content['aid'] = '0';
         }
         if (empty($content)) {
-            return $this->getContext($newId, $ifAdd, $maxId);
+            $result = $this->getContext($newId, $ifAdd, $maxId);
+            if (mb_strlen($result['title']) > 8) {
+                $result['title'] = mb_substr($result['title'], 0, 8) . '...';
+            }
+            return $result;
         }
         return $content;
     }
