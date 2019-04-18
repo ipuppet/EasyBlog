@@ -178,8 +178,8 @@ class Model
      */
     public function getLast(): array
     {
-        $pdo = $this->getDbHandler();
-        return $pdo->getOneRow('article', '*', null, ['aid' => 'DESC']);
+        $dbHandler = $this->getDbHandler();
+        return $dbHandler->getOneRow('article', '*', null, ['aid' => 'DESC']);
     }
 
     /**
@@ -193,8 +193,8 @@ class Model
      */
     public function getArticle(string $aid, string $column = '*', $orderBy = null)
     {
-        $pdo = $this->getDbHandler();
-        $result = $pdo->getOneRow('article', $column, ['aid' => $aid], $orderBy);
+        $dbHandler = $this->getDbHandler();
+        $result = $dbHandler->getOneRow('article', $column, ['aid' => $aid], $orderBy);
         return $this->wrapArticle([$result])[0];
     }
 
@@ -210,9 +210,9 @@ class Model
      */
     public function getArticles(int $limit = 1000, int $offset = 0, array $where = null, $orderBy = ['creatDate' => 'DESC'])
     {
-        $pdo = $this->getDbHandler();
+        $dbHandler = $this->getDbHandler();
         if ($where === null) {
-            $result = $pdo->getRows(
+            $result = $dbHandler->getRows(
                 'article',
                 '*',
                 null,
@@ -221,7 +221,7 @@ class Model
                 $orderBy
             );
         } else {
-            $result = $pdo->search('article', '*', $where);
+            $result = $dbHandler->search('article', '*', $where);
         }
         return $this->wrapArticle($result);
     }
@@ -238,8 +238,8 @@ class Model
      */
     public function paging(int $num, int $page = 1, array $where = null, $orderBy = ['creatDate' => 'DESC'])
     {
-        $pdo = $this->getDbHandler();
-        $articles = $pdo->getRows(
+        $dbHandler = $this->getDbHandler();
+        $articles = $dbHandler->getRows(
             'article',
             '*',
             $where,
@@ -261,8 +261,8 @@ class Model
      */
     public function getCount(): int
     {
-        $pdo = $this->getDbHandler();
-        return $pdo->count('article');
+        $dbHandler = $this->getDbHandler();
+        return $dbHandler->count('article');
     }
 
     /**
@@ -277,8 +277,8 @@ class Model
      */
     public function search(array $where = null, int $limit = 100, int $offset = 0, array $orderBy = ['creatDate' => 'DESC'])
     {
-        $pdo = $this->getDbHandler();
-        $result = $pdo->search(
+        $dbHandler = $this->getDbHandler();
+        $result = $dbHandler->search(
             'article',
             '*',
             $where,
@@ -304,7 +304,7 @@ class Model
      */
     public function addArticle(string $title, string $original, string $html, string $tags): bool
     {
-        $pdo = $this->getDbHandler();
+        $dbHandler = $this->getDbHandler();
         $creatDate = date('Y-m-d H:i:s');
         $data = [
             'creatDate' => $creatDate,
@@ -313,7 +313,7 @@ class Model
             'content' => $html,
             'tags' => $tags
         ];
-        return $pdo->insert('article', $data);
+        return $dbHandler->insert('article', $data);
     }
 
     /**
@@ -326,8 +326,8 @@ class Model
      */
     public function updateArticle(array $data,int $aid): bool
     {
-        $pdo = $this->getDbHandler();
-        return $pdo->update('article', $data, ['aid' => $aid]);
+        $dbHandler = $this->getDbHandler();
+        return $dbHandler->update('article', $data, ['aid' => $aid]);
     }
 
     /**
@@ -339,7 +339,7 @@ class Model
      */
     public function deleteArticle(string $aid): bool
     {
-        $pdo = $this->getDbHandler();
-        return $pdo->delete('article', ['aid' => $aid]);
+        $dbHandler = $this->getDbHandler();
+        return $dbHandler->delete('article', ['aid' => $aid]);
     }
 }
