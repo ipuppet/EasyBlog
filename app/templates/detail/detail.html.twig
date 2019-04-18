@@ -1,9 +1,6 @@
 {% extends "base.html.twig" %}
 {% block title %}
-    {{ article.title|slice(0,10) }}
-    {% if article.title|length >10 %}
-        ...
-    {% endif %}
+    {{ article.title }}
 {% endblock %}
 {% block head %}
     <link rel="stylesheet" href="/public/static/css/detail.css"/>
@@ -47,23 +44,4 @@
             </div>
         </div>
     </div>
-    <script>
-        $('.article').find('img').each(function () {
-            $(this).wrapAll('<div class="img-container"></div>');
-        });
-        var imgLoad = imagesLoaded('.article');
-        imgLoad.on('always', function () {
-            for (var i = 0, len = imgLoad.images.length; i < len; i++) {
-                var image = imgLoad.images[i];
-                if (image.isLoaded) {
-                    $(image.img).animate({
-                        'opacity': 1,
-                    }, 500);
-                    console.log('image ' + image.img.src + ' is successfully loaded');
-                } else {
-                    console.log('image is broken for ' + image.img.src);
-                }
-            }
-        });
-    </script>
 {% endblock %}

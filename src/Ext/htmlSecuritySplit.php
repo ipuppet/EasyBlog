@@ -72,7 +72,7 @@ class htmlSecuritySplit
         $html = substr($html, $start, $len);
         $incompleteTags = $this->getIncompleteTags($html);
         foreach ($incompleteTags as $incompleteTag) {
-            if (substr($incompleteTag, 0, 1) === '/') {
+            if (mb_substr($incompleteTag, 0, 1) === '/') {
                 $newTags = substr($incompleteTag, 1);
                 $html = "<{$newTags}>" . $html;
             } else {

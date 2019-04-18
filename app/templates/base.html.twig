@@ -172,5 +172,30 @@
         </script>
     {% endblock %}
 </div>
+<script>
+    $(document).ready(function () {
+        //给图片加上盒子
+        $('body').find('img').each(function () {
+            $(this).wrapAll('<div class="img-container"></div>');
+        });
+        //图片加载检测
+        var imgLoad = imagesLoaded('body');
+        imgLoad.on('always', function () {
+            for (var i = 0, len = imgLoad.images.length; i < len; i++) {
+                var image = imgLoad.images[i];
+                if (image.isLoaded) {
+                    $(image.img).animate({
+                        'opacity': 1,
+                    }, 500);
+                    $(image.img).parent().css('background-image','none');
+                    console.log('image ' + image.img.src + ' is successfully loaded');
+                } else {
+                    $(image.img).parent().css('background-image','url("/static/images/public/error.jpg")');
+                    console.log('image is broken for ' + image.img.src);
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

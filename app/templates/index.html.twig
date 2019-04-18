@@ -38,10 +38,10 @@
                 {#分页#}
                 {% for i in range(1,pageCount) %}
                     <a href="/{{ i }}">
-                        <li>{{ i }}</li>
+                        <li {% if i==page %}style="background: #757575;color: #ffffff;"{% endif %}>{{ i }}</li>
                     </a>
                 {% endfor %}
-                {#list#}
+                {#下一页#}
                 {% if page<pageCount %}
                     <a href="/{{ page+1 }}">
                         <li><span class="glyphicon glyphicon-menu-right"></span></li>
@@ -51,29 +51,6 @@
         </div>
     </div>
     <script>
-        $(document).ready(function () {
-            //给图片加上盒子
-            $('.articleList').find('img').each(function () {
-                $(this).wrapAll('<div class="img-container"></div>');
-                let width = $(this).width();
-                $(this).height(width * 9 / 16)
-            });
-            //图片加载检测
-            var imgLoad = imagesLoaded('.articleList');
-            imgLoad.on('always', function () {
-                for (var i = 0, len = imgLoad.images.length; i < len; i++) {
-                    var image = imgLoad.images[i];
-                    if (image.isLoaded) {
-                        $(image.img).animate({
-                            'opacity': 1,
-                        }, 500);
-                        console.log('image ' + image.img.src + ' is successfully loaded');
-                    } else {
-                        console.log('image is broken for ' + image.img.src);
-                    }
-                }
-            });
-        });
         //添加动画
         listDelay = 500;
         $('.article').each(function () {

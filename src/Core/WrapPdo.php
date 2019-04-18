@@ -209,9 +209,10 @@ final class WrapPdo implements IDbHandler
     /**
      * 获取总行数
      *
+     * @param string $table
      * @return int 总数
      */
-    public function count($table): int
+    public function count(string $table): int
     {
         $sql = "SELECT count(*) as count FROM {$table}";
         try {

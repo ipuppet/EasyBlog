@@ -20,6 +20,9 @@ class detailController extends Controller
         if (empty($content)) {
             return $this->getContext($newId, $ifAdd, $maxId);
         }
+        if (mb_strlen($content['title']) > 5) {
+            $content['title'] = mb_substr($content['title'], 0, 8) . '...';
+        }
         return $content;
     }
 
