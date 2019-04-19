@@ -16,9 +16,9 @@ class Model
      */
     private function getDbHandler(): IDbHandler
     {
-        if ($this->dbHandler === null){
+        if ($this->dbHandler === null) {
             $this->dbHandler = WrapPdo::getInstance();
-            if (!($this->dbHandler instanceof IDbHandler)){
+            if (!($this->dbHandler instanceof IDbHandler)) {
                 die('未能实现IDbHandler接口');
             }
         }
@@ -53,15 +53,27 @@ class Model
         $admins = json_decode($json, true);
         foreach ($admins as $admin) {
             if ($username !== $admin['username']) {
-                return 'Invalid user name';
+                return [
+                    'state' => '101',
+                    'msg' => '用户名错误'
+                ];
             } else {
                 if (!password_verify($password, $admin['password']))
-                    return 'Wrong password';
+                    return [
+                        'state' => '102',
+                        'msg' => '密码错误'
+                    ];
                 else
-                    return true;
+                    return [
+                        'state' => '0',
+                        'msg' => 'Success'
+                    ];
             }
         }
-        return 'No administrator,please add an administrator';
+        return [
+            'state' => '103',
+            'msg' => 'No administrator,please add an administrator'
+        ];
     }
 
     /**
@@ -324,7 +336,7 @@ class Model
      *
      * @return bool
      */
-    public function updateArticle(array $data,int $aid): bool
+    public function updateArticle(array $data, int $aid): bool
     {
         $dbHandler = $this->getDbHandler();
         return $dbHandler->update('article', $data, ['aid' => $aid]);

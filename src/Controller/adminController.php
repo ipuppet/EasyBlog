@@ -100,11 +100,11 @@ class adminController extends Controller
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
         $result = $model->tryLoginAdmin($username, $password);
-        if (is_bool($result) && $result) {
+        if ($result['state'] == '0') {
             $_SESSION['admin']['username'] = $username;
             echo '{"state":"1"}';
         } else {
-            echo '{"state":"0","msg":"' . $result . '"}';
+            echo json_encode($result,JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -144,7 +144,7 @@ class adminController extends Controller
         $title = filter_input(INPUT_POST, 'title');
         $tags = filter_input(INPUT_POST, 'tags');
         $original = filter_input(INPUT_POST, 'original');
-        $original = htmlspecialchars($original,ENT_QUOTES);
+        $original = htmlspecialchars($original, ENT_QUOTES);
         $html = filter_input(INPUT_POST, 'html');
         $html = htmlentities($html, ENT_QUOTES, 'UTF-8');
         $data = [

@@ -187,10 +187,11 @@
                     $(image.img).animate({
                         'opacity': 1,
                     }, 500);
-                    $(image.img).parent().css('background-image','none');
+                    $(image.img).parent().css('background-image', 'none');
                     console.log('image ' + image.img.src + ' is successfully loaded');
                 } else {
-                    $(image.img).parent().css('background-image','url("/static/images/public/error.jpg")');
+                    $(image.img).parent().css('background', 'none');
+                    $(image.img).attr('src', '/public/static/images/public/error.jpg');
                     console.log('image is broken for ' + image.img.src);
                 }
             }

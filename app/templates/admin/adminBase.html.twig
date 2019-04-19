@@ -79,8 +79,22 @@
 </script>
 <div class="global-msg-box animated"></div>
 <script>
-    var t_for_global_msg_box;
     var ifSecondaryMenu = false;
+    var t_for_global_msg_box;
+    var t_for_global_msg_box_inside;
+
+    function showMsg(msg, time = 1500) {
+        var e = $('.global-msg-box');
+        e.text(msg).show().addClass('fadeIn').removeClass('fadeOut');
+        clearTimeout(t_for_global_msg_box);
+        t_for_global_msg_box = setTimeout(function () {
+            e.addClass('fadeOut').removeClass('fadeIn');
+            clearTimeout(t_for_global_msg_box_inside);
+            t_for_global_msg_box_inside = setTimeout(function () {
+                e.hide()
+            }, 300)
+        }, time);
+    }
 
     //调整窗口
     adjustWindow();
@@ -91,24 +105,12 @@
     });
 
     //判断当前栏目
-    $('.menu a').each(function () {
-        if (window.location.pathname === $(this).attr('href')) {
-            $(this).css('color', '#44bed1');
-            if ($(this).parent().parent().attr('class') === 'secondaryMenu') {
-                ifSecondaryMenu = true;
-                var ele = $(".menu").find('.secondaryMenu').parent().find('div');
-                secondaryMenu(ele);
-            }
-        }
-    });
-
-    function showMsg(msg, time = 1500) {
-        var e = $('.global-msg-box');
-        e.text(msg).show().addClass('fadeIn').removeClass('fadeOut');
-        clearTimeout(t_for_global_msg_box);
-        t_for_global_msg_box = setTimeout(function () {
-            e.addClass('fadeOut').removeClass('fadeIn');
-        }, time);
+    var menuNow = $('a[href="' + window.location.pathname + '"]');
+    menuNow.css('color', '#44bed1');
+    if (menuNow.parents('.secondaryMenu')) {
+        ifSecondaryMenu = true;
+        var ele = menuNow.parents('.secondaryMenu').prev();
+        secondaryMenu(ele);
     }
 
     //菜单控制按钮，控制显示和隐藏
