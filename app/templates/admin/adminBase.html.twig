@@ -117,22 +117,23 @@
     function menuControl(btn, trigger = false) {
         var menu = $(".menu");
         var body = $(".body");
-        var secondaryMenuEle = menu.find('.secondaryMenu').parent().find('div');
         if (menu.width() === 200) {
             $(btn).css('transform', 'rotate(180deg)');
             menu.width(40);
+            $('.infoBox').hide();
             if (menu.find('.secondaryMenu').css('display') !== 'none') {
-                secondaryMenu(secondaryMenuEle);
+                secondaryMenu(menu.find('.secondaryMenu').parent().find('div'));
             }
             $('.menu-text').hide();
             body.width(body.width() + 160).css('left', '40px');
         } else {
             $(btn).css('transform', 'rotate(0deg)');
             menu.width(200);
+            $('.infoBox').show(300);
             $('.menu-text').fadeIn();
             body.width(body.width() - 160).css('left', '200px');
             if (ifSecondaryMenu && !trigger) {
-                secondaryMenu(secondaryMenuEle, true)
+                secondaryMenu(menuNow.parents('.secondaryMenu').prev(), true)
             }
         }
     }
