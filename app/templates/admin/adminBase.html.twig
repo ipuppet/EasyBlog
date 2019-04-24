@@ -121,9 +121,10 @@
             $(btn).css('transform', 'rotate(180deg)');
             menu.width(40);
             $('.infoBox').hide();
-            if (menu.find('.secondaryMenu').css('display') !== 'none') {
-                secondaryMenu(menu.find('.secondaryMenu').parent().find('div'));
-            }
+            menu.find('.secondaryMenu').each(function () {
+                if ($(this).css('display') !== 'none')
+                    secondaryMenu($(this).prev());
+            });
             $('.menu-text').hide();
             body.width(body.width() + 160).css('left', '40px');
         } else {
