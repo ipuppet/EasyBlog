@@ -51,23 +51,28 @@ class Model
     {
         $json = file_get_contents(Kernel::getConfig('admin.json'));
         $admins = json_decode($json, true);
-        foreach ($admins as $admin) {
+        foreach ($admins as $key => $admin) {
             if ($username !== $admin['username']) {
                 return [
                     'state' => '101',
                     'msg' => '用户名错误'
                 ];
             } else {
-                if (!password_verify($password, $admin['password']))
+                if (!password_verify($password, $admin['password'])) {
                     return [
                         'state' => '102',
                         'msg' => '密码错误'
                     ];
-                else
+                } else {
+                    if (password_needs_rehash($admin['password'], PASSWORD_DEFAULT)) {
+                        $admins[$key]['password'] = password_hash($password, PASSWORD_DEFAULT);
+                        file_put_contents(Kernel::getConfig('admin.json'), json_encode($admins));
+                    }
                     return [
                         'state' => '0',
                         'msg' => 'Success'
                     ];
+                }
             }
         }
         return [

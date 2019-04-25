@@ -9,7 +9,7 @@ img {
 }
 
 .img-container {
-    background: url("/public/static/images/public/loading.gif") no-repeat center top;
+    background: no-repeat center top;
     background-size: auto 100%;
     width: 100%;
     overflow: auto;

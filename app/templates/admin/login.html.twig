@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/animate.css"/>
     <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/admin/login.css"/>
+    <style>
+        body {
+            background-image: url("{{ ROOT_PATH }}/static/images/public/bg.jpg");
+            background-size: 100%;
+        }
+    </style>
     <title>登陆</title>
 </head>
 <body>
@@ -92,7 +98,7 @@
                 if (ret.state === '1') {
                     $(ele).text('登陆成功');
                     showMsg('登陆成功', 1000);
-                    window.location.href = "/admin"
+                    window.location.href = "{{ ROOT_PATH }}/admin"
                 } else {
                     showMsg(ret.msg, 1000);
                     switch (ret.state) {

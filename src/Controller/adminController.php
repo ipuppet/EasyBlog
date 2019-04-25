@@ -11,8 +11,12 @@ class adminController extends Controller
         session_start();
         parent::__construct();
         $handler = $this->getHandler();
-        if (empty($_SESSION['admin']) && $handler !== 'admin.login' && $handler !== 'admin.apiLogin') {
-            header("Location: /admin/login");
+        $noJumpHandler = [
+            'admin.login',
+            'admin.apiLogin',
+        ];
+        if (empty($_SESSION['admin']) && !in_array($handler, $noJumpHandler)) {
+            header("Location: " . ROOT_PATH . "/admin/login");
             return;
         } else {
             $this->addGlobalToTwig('admin', @$_SESSION['admin']);
@@ -31,13 +35,7 @@ class adminController extends Controller
     {
         $twig = $this->getTwig();
         $template = $twig->load('admin');
-        $model = $this->getModel();
-        $articles = $model->getArticles();
-        $context = $template->render(
-            [
-                'articles' => $articles,
-            ]
-        );
+        $context = $template->render();
         echo $context;
     }
 
@@ -104,7 +102,7 @@ class adminController extends Controller
             $_SESSION['admin']['username'] = $username;
             echo '{"state":"1"}';
         } else {
-            echo json_encode($result,JSON_UNESCAPED_UNICODE);
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
         }
     }
 

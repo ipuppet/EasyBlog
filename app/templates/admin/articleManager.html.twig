@@ -115,7 +115,7 @@
     <script>
         function sendContent(title, original, html, tags) {
             $.ajax({
-                url: {% if article != 0 %}"\{\{ ROOT_PATH }}/admin/apiChangeArticle"{% else %}"{{ ROOT_PATH }}/admin/apiAddArticle"{% endif %},
+                url: {% if article != 0 %}"{{ ROOT_PATH }}/admin/apiChangeArticle"{% else %}"{{ ROOT_PATH }}/admin/apiAddArticle"{% endif %},
                 type: "post",
                 data: {
                     title: title,

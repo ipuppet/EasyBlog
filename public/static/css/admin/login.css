@@ -1,8 +1,3 @@
-body {
-    background-image: url("/public/static/images/public/bg.jpg");
-    background-size: 100%;
-}
-
 ul {
     padding: 0;
     margin: 0;
@@ -11,7 +6,6 @@ ul {
 
 .img-container {
     background: no-repeat center top;
-    background-image: url("/public/static/images/public/loading.gif");
     background-size: auto 100%;
 }
 
