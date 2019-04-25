@@ -19,6 +19,7 @@ class Controller
     protected function addGlobalToTwig($name = null, $value = null)
     {
         $twig = $this->getTwig();
+        $twig->addGlobal('ROOT_PATH', ROOT_PATH);
         if ($name === null) {
             $model = $this->getModel();
             //添加的数据

@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <script src="/public/static/library/jquery-3.3.1.min.js"></script>
-    <script src="/public/static/library/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/public/static/library/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/public/static/library/animate.css"/>
-    <link rel="stylesheet" href="/public/static/css/admin/login.css"/>
+    <script src="{{ ROOT_PATH }}/static/library/jquery-3.3.1.min.js"></script>
+    <script src="{{ ROOT_PATH }}/static/library/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/animate.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/admin/login.css"/>
     <title>登陆</title>
 </head>
 <body>
@@ -81,7 +81,7 @@
             return false;
         }
         $.ajax({
-            url: "/admin/apiLogin",
+            url: "{{ ROOT_PATH }}/admin/apiLogin",
             type: "post",
             data: {
                 "username": username,

@@ -1,14 +1,14 @@
 {% extends 'adminBase.html.twig' %}
 {% block title %}后台管理{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="/public/static/css/admin/articleList.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/admin/articleList.css"/>
 {% endblock %}
 {% block body %}
     <div class="col-sm-12">
         {% for article in articles %}
             <div class="article">
                 <div class="title">
-                    <a href="/admin/articleManager/{{ article.aid }}">{{ article.title }}</a>
+                    <a href="{{ ROOT_PATH }}/admin/articleManager/{{ article.aid }}">{{ article.title }}</a>
                 </div>
                 <div class="info">
                     <span>{{ article.creatDate }}</span>

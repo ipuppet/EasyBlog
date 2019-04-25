@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <script src="/public/static/library/jquery-3.3.1.min.js"></script>
-    <script src="/public/static/library/imagesloaded.pkgd.min.js"></script>
-    <script src="/public/static/library/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/public/static/library/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/public/static/library/animate.css"/>
-    <link rel="stylesheet" href="/public/static/css/admin/base.css"/>
+    <script src="{{ ROOT_PATH }}/static/library/jquery-3.3.1.min.js"></script>
+    <script src="{{ ROOT_PATH }}/static/library/imagesloaded.pkgd.min.js"></script>
+    <script src="{{ ROOT_PATH }}/static/library/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/animate.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/admin/base.css"/>
     <title>{% block title %}后台管理{% endblock %}</title>
     {% block head %}{% endblock %}
 </head>
@@ -16,7 +16,7 @@
 <div class="menu">
     <ul>
         <li>
-            <a href="/admin">
+            <a href="{{ ROOT_PATH }}/admin">
                 <div>
                     <span class="glyphicon glyphicon-home"></span>
                     <span class="menu-text">首页</span>
@@ -31,14 +31,14 @@
             </div>
             <ul class="secondaryMenu">
                 <li>
-                    <a href="/admin/info/banners">
+                    <a href="{{ ROOT_PATH }}/admin/info/banners">
                         <div>
                             <span class="glyphicon glyphicon-blackboard"></span>横幅
                         </div>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/info/tags">
+                    <a href="{{ ROOT_PATH }}/admin/info/tags">
                         <div>
                             <span class="glyphicon glyphicon-tag"></span>标签
                         </div>
@@ -47,7 +47,7 @@
             </ul>
         </li>
         <li>
-            <a href="/admin/articleList">
+            <a href="{{ ROOT_PATH }}/admin/articleList">
                 <div>
                     <span class="glyphicon glyphicon-list"></span>
                     <span class="menu-text">文章管理</span>
@@ -55,7 +55,7 @@
             </a>
         </li>
         <li>
-            <a href="/admin/articleManager/">
+            <a href="{{ ROOT_PATH }}/admin/articleManager/">
                 <div>
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     <span class="menu-text">添加文章</span>
@@ -70,7 +70,7 @@
 <div class="body">
     <div class="header">
         <span>欢迎您：{{ admin.username }}</span>
-        <a href="/" target="_blank">>>博客前台<<</a>
+        <a href="{{ ROOT_PATH }}/" target="_blank">>>博客前台<<</a>
     </div>
     {% block body %}{% endblock %}
 </div>
