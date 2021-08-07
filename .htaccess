@@ -1,3 +1,2 @@
 RewriteEngine on
-RewriteCond $1 !^(public)
 RewriteRule ^(.*)$ public/$1 [L]

@@ -3,7 +3,7 @@
     {{ article.title }}
 {% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="/public/static/css/detail.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/detail.css"/>
 {% endblock %}
 {% block body %}
     <div class="article">
@@ -13,7 +13,7 @@
             {% if article.tags|length>0 %}
                 &nbsp;|&nbsp;标签：
                 {% for tag in article.tags %}
-                    <a class="tag" href="/tag/{{ tag }}">{{ tag }}</a>&nbsp;
+                    <a class="tag" href="{{ ROOT_PATH }}/tag/{{ tag }}">{{ tag }}</a>&nbsp;
                 {% endfor %}
             {% endif %}
         </div>
@@ -27,7 +27,7 @@
                 {% if previous.aid is same as('0') %}
                     <a>{{ previous.title }}</a>
                 {% else %}
-                    <a href="/detail/{{ previous.aid }}">
+                    <a href="{{ ROOT_PATH }}/detail/{{ previous.aid }}">
                         {{ previous.title }}
                     </a>
                 {% endif %}
@@ -37,7 +37,7 @@
                 {% if next.aid is same as('0') %}
                     <a>{{ next.title }}</a>
                 {% else %}
-                    <a href="/detail/{{ next.aid }}">
+                    <a href="{{ ROOT_PATH }}/detail/{{ next.aid }}">
                         {{ next.title }}
                     </a>
                 {% endif %}

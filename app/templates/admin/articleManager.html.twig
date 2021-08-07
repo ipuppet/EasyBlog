@@ -1,9 +1,9 @@
 {% extends 'adminBase.html.twig' %}
 {% block title %}文章管理{% endblock %}
 {% block head %}
-    <script src="/public/static/library/editormd/editormd.min.js"></script>
-    <link rel="stylesheet" href="/public/static/library/editormd/css/editormd.min.css">
-    <link rel="stylesheet" href="/public/static/css/admin/articleManager.css">
+    <script src="{{ ROOT_PATH }}/static/library/editormd/editormd.min.js"></script>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/library/editormd/css/editormd.min.css">
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/admin/articleManager.css">
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
@@ -35,7 +35,7 @@
                         <li><a onclick="addTag(this)">{{ tag }}</a></li>
                     {% endfor %}
                     <li role="separator" class="divider"></li>
-                    <li><a href="/admin/info/tags" target="_blank">编辑标签</a></li>
+                    <li><a href="{{ ROOT_PATH }}/admin/info/tags" target="_blank">编辑标签</a></li>
                 </ul>
             </div>
             <div id="editormd">
@@ -50,14 +50,14 @@
                     function deleteArticle() {
                         if (confirm('确定要删除吗？该操作不可逆！') === true) {
                             $.ajax({
-                                url: "/admin/apiDeleteArticle",
+                                url: "{{ ROOT_PATH }}/admin/apiDeleteArticle",
                                 type: "post",
                                 data: {
                                     aid: "{{ aid }}"
                                 },
                                 success: function (ret) {
                                     showMsg('删除成功');
-                                    setTimeout("window.location.href='/admin/articleList'", 1000);
+                                    setTimeout("window.location.href='{{ ROOT_PATH }}/admin/articleList'", 1000);
                                     console.log(ret)
                                 }
                             })
@@ -86,7 +86,7 @@
                         },
                         syncScrolling: "single",
                         saveHTMLToTextarea: true,
-                        path: "/public/static/library/editormd/lib/"
+                        path: "{{ ROOT_PATH }}/static/library/editormd/lib/"
                     });
                 });
 
@@ -115,7 +115,7 @@
     <script>
         function sendContent(title, original, html, tags) {
             $.ajax({
-                url: {% if article != 0 %}"/admin/apiChangeArticle"{% else %}"/admin/apiAddArticle"{% endif %},
+                url: {% if article != 0 %}"{{ ROOT_PATH }}/admin/apiChangeArticle"{% else %}"{{ ROOT_PATH }}/admin/apiAddArticle"{% endif %},
                 type: "post",
                 data: {
                     title: title,
@@ -130,7 +130,7 @@
                     ret = JSON.parse(ret);
                     if (ret.state === '1') {
                         showMsg('操作成功');
-                        setTimeout("window.location.href='/admin/articleList'", 1000);
+                        setTimeout("window.location.href='{{ ROOT_PATH }}/admin/articleList'", 1000);
                     }
                 }
             })

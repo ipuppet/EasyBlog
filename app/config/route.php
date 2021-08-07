@@ -1,25 +1,28 @@
 <?php
-
+//ROOT_PATH用于指定域名后紧跟着的部分，如
+//http://localhost:8000/ums/
+//http://localhost:8000/ums/login
+define('ROOT_PATH', '/EasyBlog');
 return [
     [
         'method' => 'get',
         'route' => [
             '' => [
-                'route' => '/{page}',
+                'route' => ROOT_PATH . '/{page}',
                 'tokens' => [
                     'page' => '[0-9]*'
                 ]
             ],
             'index.search' => [
-                'route' => '/search/{kw}',
+                'route' => ROOT_PATH . '/search/{kw}',
                 'tokens' => [
                     'kw' => '.*'
                 ]
             ],
-            'detail.show' => '/detail/{aid}',
-            'classify.tag' => '/tag/{tag}',
-            'classify.archives' => '/archives',
-            'detail.about' => '/about',
+            'detail.show' => ROOT_PATH . '/detail/{aid}',
+            'classify.tag' => ROOT_PATH . '/tag/{tag}',
+            'classify.archives' => ROOT_PATH . '/archives',
+            'detail.about' => ROOT_PATH . '/about',
 
         ]
     ],
@@ -27,13 +30,13 @@ return [
     [
         'method' => 'get',
         'route' => [
-            'admin.index' => '/admin',
-            'admin.login' => '/admin/login',
-            'admin.info' => '/admin/info/{module}',
-            'admin.articleList' => '/admin/articleList',
+            'admin.index' => ROOT_PATH . '/admin',
+            'admin.login' => ROOT_PATH . '/admin/login',
+            'admin.info' => ROOT_PATH . '/admin/info/{module}',
+            'admin.articleList' => ROOT_PATH . '/admin/articleList',
             'admin.articleManager' =>
                 [
-                    'route' => '/admin/articleManager/{aid}',
+                    'route' => ROOT_PATH . '/admin/articleManager/{aid}',
                     'tokens' => [
                         'aid' => '.*'
                     ]
@@ -42,11 +45,11 @@ return [
     ], [
         'method' => 'post',
         'route' => [
-            'admin.apiChangeInfo' => '/admin/apiChangeInfo',
-            'admin.apiLogin' => '/admin/apiLogin',
-            'admin.apiAddArticle' => '/admin/apiAddArticle',
-            'admin.apiChangeArticle' => '/admin/apiChangeArticle',
-            'admin.apiDeleteArticle' => '/admin/apiDeleteArticle',
+            'admin.apiChangeInfo' => ROOT_PATH . '/admin/apiChangeInfo',
+            'admin.apiLogin' => ROOT_PATH . '/admin/apiLogin',
+            'admin.apiAddArticle' => ROOT_PATH . '/admin/apiAddArticle',
+            'admin.apiChangeArticle' => ROOT_PATH . '/admin/apiChangeArticle',
+            'admin.apiDeleteArticle' => ROOT_PATH . '/admin/apiDeleteArticle',
         ]
     ]
 ];

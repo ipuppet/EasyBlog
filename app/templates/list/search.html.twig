@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}搜索结果{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="/public/static/css/list.css"/>
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/list.css"/>
 {% endblock %}
 {% block body %}
     <div class="list">
@@ -13,14 +13,14 @@
                 {% for article in articles %}
                     <div class="article animated zoomIn">
                         <div class="title">
-                            <a href="/detail/{{ article.aid }}">{{ article.title }}</a>
+                            <a href="{{ ROOT_PATH }}/detail/{{ article.aid }}">{{ article.title }}</a>
                         </div>
                         <div class="info">
                             <span>{{ article.creatDate }}</span>
                             {% if article.tags|length>0 %}
                                 &nbsp;|&nbsp;标签：
                                 {% for tag in article.tags %}
-                                    <a class="tag" href="/tag/{{ tag }}">{{ tag }}</a>&nbsp;
+                                    <a class="tag" href="{{ ROOT_PATH }}/tag/{{ tag }}">{{ tag }}</a>&nbsp;
                                 {% endfor %}
                             {% endif %}
                         </div>

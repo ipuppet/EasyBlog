@@ -1,7 +1,7 @@
 {% extends 'adminBase.html.twig' %}
 {% block title %}杂项管理{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="/public/static/css/admin/info.css">
+    <link rel="stylesheet" href="{{ ROOT_PATH }}/static/css/admin/info.css">
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
@@ -65,7 +65,7 @@
             assoc = name === 'banners';
             var data = getData(ele, assoc);
             $.ajax({
-                url: "/admin/apiChangeInfo",
+                url: "{{ ROOT_PATH }}/admin/apiChangeInfo",
                 method: "post",
                 data: {
                     "data": data,
